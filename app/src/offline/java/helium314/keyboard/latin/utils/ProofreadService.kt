@@ -195,6 +195,8 @@ class ProofreadService(private val context: Context) {
     fun getProvider(): AIProvider = AIProvider.GROQ
     fun setProvider(provider: AIProvider) { /* No-op */ }
 
+    suspend fun fetchAvailableModels(provider: AIProvider): List<String> = emptyList()
+
     // API-compatible methods
     fun getApiKey(): String? = null
     fun setApiKey(apiKey: String?) { /* No-op */ }

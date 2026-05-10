@@ -20,6 +20,8 @@ class ProofreadService(private val context: Context) {
     fun getProvider(): AIProvider = AIProvider.GEMINI
     fun setProvider(provider: AIProvider) { /* No-op */ }
 
+    suspend fun fetchAvailableModels(provider: AIProvider): List<String> = emptyList()
+
     fun getApiKey(): String? = null
     fun setApiKey(apiKey: String?) { /* No-op */ }
     fun hasApiKey(): Boolean = false
