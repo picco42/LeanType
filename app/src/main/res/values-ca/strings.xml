@@ -355,7 +355,6 @@
     <string name="long_press_code">Codi de pressió llarg</string>
     <string name="toast_msg_clipboard_copy">Contingut copiat</string>
     <string name="dictionary_file_error">Error: el fitxer seleccionat no és un fitxer de diccionari vàlid</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Oceà</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">Rosa</string>
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">Sorra</string>
     <string name="customize_toolbar_key_code_reset_message">Esborrar realment tots els codis de tecla personalitzats?</string>

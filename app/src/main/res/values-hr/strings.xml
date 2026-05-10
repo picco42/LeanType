@@ -365,7 +365,6 @@
     <string name="theme_name_cloudy" tools:keep="@string/theme_name_cloudy">Oblačno</string>
     <string name="theme_name_forest" tools:keep="@string/theme_name_forest">Šuma</string>
     <string name="theme_name_indigo" tools:keep="@string/theme_name_indigo">Indigo</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Oceanski</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">Rozo</string>
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">Pjesak</string>
     <string name="theme_name_violette" tools:keep="@string/theme_name_violette">Ljubičasto</string>

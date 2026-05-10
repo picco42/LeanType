@@ -362,7 +362,6 @@
     <string name="theme_name_cloudy" tools:keep="@string/theme_name_cloudy">Debesuota</string>
     <string name="theme_name_forest" tools:keep="@string/theme_name_forest">Miškas</string>
     <string name="theme_name_indigo" tools:keep="@string/theme_name_indigo">indigo</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Vandenyno</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">Rožinė</string>
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">Smėlio</string>
     <string name="theme_name_violette" tools:keep="@string/theme_name_violette">Violetinė</string>

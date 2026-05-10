@@ -304,7 +304,6 @@
     <string name="add_dictionary">Selecteer een woordenboek om toe te voegen. Woordenboeken in .dict-indeling kunnen %s worden gedownload.</string>
     <string name="theme_colors_night">Kleuren (nacht)</string>
     <string name="theme_name_indigo" tools:keep="@string/theme_name_indigo">Indigo</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Oceaan</string>
     <string name="hidden_features_message">► Lang drukken van vastgezette werkbalktoetsen resulteert in extra functionaliteit: &lt;br&gt;
 \n\t• klembord &amp;#65515; plakken&lt;br&gt;
 \n\t• links/rechts verplaatsen &amp;#65515; woord links/rechts verplaatsen &lt;br&gt;

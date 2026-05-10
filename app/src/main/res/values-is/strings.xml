@@ -215,7 +215,6 @@
     <string name="restore_error">Villa við endurheimtingu frá öryggisafriti: %s</string>
     <string name="theme_name_dark" tools:keep="@string/theme_name_dark">Dökkt</string>
     <string name="theme_name_indigo" tools:keep="@string/theme_name_indigo">Djúpfjólublátt</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Úthaf</string>
     <string name="theme_colors_night">Litir (nótt)</string>
     <string name="select_color_key">Texti á lykli</string>
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">Sandur</string>

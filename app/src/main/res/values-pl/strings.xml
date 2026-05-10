@@ -256,7 +256,6 @@
     <string name="down" tools:keep="@string/down">W dół</string>
     <string name="toolbar_keys">Wybierz klawisze paska narzędzi</string>
     <string name="license">Licencje open source</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Niebieskie</string>
     <string name="backup_error">Błąd podczas tworzenia kopii zapasowej: %s</string>
     <string name="show_popup_hints_summary">Wyświetlaj wskazówki, jeśli długie naciśnięcie klawisza uruchamia dodatkową funkcję</string>
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">Piaskowe</string>

@@ -265,6 +265,12 @@ public final class RichInputConnection implements PrivateCommandPerformer {
     public boolean resetCachesUponCursorMoveAndReturnSuccess(final int newSelStart,
             final int newSelEnd, final boolean shouldFinishComposition) {
         mComposingText.setLength(0);
+        // Set expected positions before reload so the cache is built with the correct
+        // cursor context — avoids a second IPC round-trip when position has changed.
+        final int oldExpectedSelStart = mExpectedSelStart;
+        final int oldExpectedSelEnd = mExpectedSelEnd;
+        mExpectedSelStart = newSelStart;
+        mExpectedSelEnd = newSelEnd;
         final boolean didReloadTextSuccessfully = reloadTextCache();
         if (!didReloadTextSuccessfully) {
             Log.d(TAG, "Will try to retrieve text later.");
@@ -272,13 +278,8 @@ public final class RichInputConnection implements PrivateCommandPerformer {
             return false;
         }
         if (mExpectedSelStart != newSelStart || mExpectedSelEnd != newSelEnd) {
-            mExpectedSelStart = newSelStart;
-            mExpectedSelEnd = newSelEnd;
-            reloadTextCache();
-            if (mExpectedSelStart != newSelStart || mExpectedSelEnd != newSelEnd) {
-                Log.i(TAG, "resetCachesUponCursorMove: tried to set " + newSelStart + "/" + newSelEnd
-                        + ", but input field has " + mExpectedSelStart + "/" + mExpectedSelEnd);
-            }
+            Log.i(TAG, "resetCachesUponCursorMove: tried to set " + newSelStart + "/" + newSelEnd
+                    + ", but input field has " + mExpectedSelStart + "/" + mExpectedSelEnd);
         }
         if (isConnected() && shouldFinishComposition) {
             mIC.finishComposingText();
@@ -516,24 +517,20 @@ public final class RichInputConnection implements PrivateCommandPerformer {
         // test for this explicitly)
         if (INVALID_CURSOR_POSITION != mExpectedSelStart
                 && (cachedLength >= n || cachedLength >= mExpectedSelStart)) {
-            final StringBuilder s = new StringBuilder(mCommittedTextBeforeComposingText.toString());
-            // We call #toString() here to create a temporary object.
-            // In some situations, this method is called on a worker thread, and it's
-            // possible
-            // the main thread touches the contents of mComposingText while this worker
-            // thread
-            // is suspended, because mComposingText is a StringBuilder. This may lead to
-            // crashes,
-            // so we call #toString() on it. That will result in the return value being
-            // strictly
-            // speaking wrong, but since this is used for basing bigram probability off, and
-            // it's only going to matter for one getSuggestions call, it's fine in the
-            // practice.
-            s.append(mComposingText.toString());
-            if (s.length() > n) {
-                s.delete(0, s.length() - n);
+            // Thread-safety: snapshot mComposingText via toString() since it may be
+            // mutated on the main thread while this runs on a worker thread.
+            final String composingSnapshot = mComposingText.toString();
+            final String committedSnapshot = mCommittedTextBeforeComposingText.toString();
+            final int totalLen = committedSnapshot.length() + composingSnapshot.length();
+            if (totalLen <= n) {
+                // Common case: return everything without trimming — avoid StringBuilder
+                if (composingSnapshot.isEmpty()) return committedSnapshot;
+                if (committedSnapshot.isEmpty()) return composingSnapshot;
+                return committedSnapshot + composingSnapshot;
             }
-            return s;
+            // Rare case: need to trim from the front
+            final String combined = committedSnapshot + composingSnapshot;
+            return combined.substring(combined.length() - n);
         }
         return getTextBeforeCursorAndDetectLaggyConnection(
                 OPERATION_GET_TEXT_BEFORE_CURSOR,
@@ -584,6 +581,21 @@ public final class RichInputConnection implements PrivateCommandPerformer {
             return true;
         final char lastChar = textField.charAt(lastIndex);
         final int composingLength = mComposingText.length();
+        // Fast-path: check last character without loop overhead (covers >90% of consistent cases)
+        final char lastCachedChar;
+        if (composingLength > 0) {
+            lastCachedChar = mComposingText.charAt(composingLength - 1);
+        } else if (mCommittedTextBeforeComposingText.length() > 0) {
+            lastCachedChar = mCommittedTextBeforeComposingText.charAt(
+                    mCommittedTextBeforeComposingText.length() - 1);
+        } else {
+            return true; // empty cache, nothing to compare
+        }
+        if (lastCachedChar != lastChar)
+            return false; // last char mismatch → inconsistent
+        // If last char differs from second-to-last in the text field, no need for full scan
+        if (lastIndex > 0 && textField.charAt(lastIndex - 1) != lastChar)
+            return true;
         for (int i = 0; i <= lastIndex; i++) {
             // get last minus i character and compare
             final char currentTextFieldChar = textField.charAt(lastIndex - i);

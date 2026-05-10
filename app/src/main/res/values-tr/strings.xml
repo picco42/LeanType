@@ -319,7 +319,6 @@
     <string name="subtype_generic_sebeolsik_final">%s (Sebeolsik Final)</string>
     <string name="theme_style">Stil</string>
     <string name="theme_name_dark" tools:keep="@string/theme_name_dark">Koyu</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Okyanus</string>
     <string name="switch_keyboard_after">Sonrasında ana klavyeye geç…</string>
     <string name="after_symbol_and_space">Sembol görünümünde diğer tuşlardan sonra enter veya boşluk tuşuna basma</string>
     <string name="after_emoji">Emoji görünümünde emojiyi seçme</string>

@@ -266,7 +266,6 @@
     <string name="theme_name_blue_gray" tools:keep="@string/theme_name_blue_gray">Шэра-блакітны</string>
     <string name="theme_name_forest" tools:keep="@string/theme_name_forest">Лес</string>
     <string name="theme_name_indigo" tools:keep="@string/theme_name_indigo">Індыга</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Акіян</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">Ружовы</string>
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">Пясок</string>
     <string name="theme_name_violette" tools:keep="@string/theme_name_violette">Віялета</string>

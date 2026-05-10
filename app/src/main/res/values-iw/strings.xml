@@ -309,7 +309,6 @@
     <string name="theme_name_blue_gray" tools:keep="@string/theme_name_blue_gray">כחול אפור</string>
     <string name="theme_name_brown" tools:keep="@string/theme_name_brown">חום</string>
     <string name="theme_name_cloudy" tools:keep="@string/theme_name_cloudy">סגרירי</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">אוקיאנוס</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">ורוד</string>
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">חול</string>
     <string name="theme_name_user" tools:keep="@string/theme_name_user">מוגדר ע\"י המשתמש</string>

@@ -60,7 +60,6 @@
     <string name="theme_name_chocolate" tools:keep="@string/theme_name_chocolate">چوقولاتە</string>
     <string name="theme_name_cloudy" tools:keep="@string/theme_name_cloudy">گولگەلی</string>
     <string name="theme_name_indigo" tools:keep="@string/theme_name_indigo">آچیق ماوی</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">اوقیانوس</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">پنبە</string>
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">قوم</string>
     <string name="theme_name_violette" tools:keep="@string/theme_name_violette">منكشە</string>

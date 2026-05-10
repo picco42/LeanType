@@ -194,7 +194,6 @@
     <string name="theme_colors">Färger</string>
     <string name="theme_colors_night">Färger (natt)</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">Rosa</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Hav</string>
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">Sand</string>
     <string name="theme_name_violette" tools:keep="@string/theme_name_violette">Violett</string>
     <string name="theme_name_user" tools:keep="@string/theme_name_user">Användardefinierat</string>

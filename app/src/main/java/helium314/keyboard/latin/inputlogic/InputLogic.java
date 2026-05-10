@@ -3327,7 +3327,8 @@ public final class InputLogic {
 
     public void updateEmojiDictionary(Locale locale) {
         // todo: disable if in full emoji search mode
-        if (Settings.getValues().mInlineEmojiSearch && Settings.getValues().needsToLookupSuggestions()) {
+        final SettingsValues sv = Settings.getValues();
+        if (sv.mInlineEmojiSearch && sv.needsToLookupSuggestions()) {
             if (mEmojiDictionaryFacilitator == null || !mEmojiDictionaryFacilitator.isForLocale(locale)) {
                 closeEmojiDictionary();
                 var dictFile = DictionaryInfoUtils.getCachedDictForLocaleAndType(locale, "emoji", mLatinIME);

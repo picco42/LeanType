@@ -206,7 +206,6 @@
     <string name="theme_name_dark" tools:keep="@string/theme_name_dark">داكن</string>
     <string name="theme_name_darker" tools:keep="@string/theme_name_darker">أغمق</string>
     <string name="theme_name_dynamic" tools:keep="@string/theme_name_dynamic">ألوان ديناميكية</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">محيط</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">وردي</string>
     <string name="disable_personalized_dicts_message">تحذير: سيؤدي تعطيل هذا الإعداد إلى محُ البيانات التي تم تعلمها</string>
     <string name="add_to_personal_dictionary">أضف كلمات إلى القاموس الشخصي</string>

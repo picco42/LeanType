@@ -301,7 +301,6 @@
     <string name="theme_name_cloudy" tools:keep="@string/theme_name_cloudy">Nuboso</string>
     <string name="theme_name_forest" tools:keep="@string/theme_name_forest">Bosque</string>
     <string name="theme_name_indigo" tools:keep="@string/theme_name_indigo">Índigo</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Océano</string>
     <string name="auto_show_toolbar_summary">Mostrar la barra de herramientas si se ingresa o selecciona texto</string>
     <string name="subtype_mns">Mansi</string>
     <string name="all_colors_warning">Esta configuración muestra todos los colores que se usan internamente. La lista de colores puede cambiar en cualquier momento. El valor predeterminado se deriva de los colores normales y los nombres no se traducirán.</string>

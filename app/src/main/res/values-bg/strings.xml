@@ -302,7 +302,6 @@
     <string name="dictionary_link_text">тук</string>
     <string name="theme_name_black" tools:keep="@string/theme_name_black">Черена</string>
     <string name="theme_name_dynamic" tools:keep="@string/theme_name_dynamic">Динамични цветове</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Океан</string>
     <string name="theme_colors">Цветове</string>
     <string name="theme_colors_night">Цветове (нощ)</string>
     <string name="user_dict_add_word_button">Добавете дума</string>

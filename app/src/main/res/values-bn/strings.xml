@@ -257,7 +257,6 @@
     <string name="theme_name_cloudy" tools:keep="@string/theme_name_cloudy">মেঘাচ্ছন্ন</string>
     <string name="theme_name_forest" tools:keep="@string/theme_name_forest">অরণ্য</string>
     <string name="theme_name_indigo" tools:keep="@string/theme_name_indigo">নীল</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">সমুদ্র</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">গোলাপি</string>
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">বালুকা</string>
     <string name="theme_name_violette" tools:keep="@string/theme_name_violette">বেগুনি</string>

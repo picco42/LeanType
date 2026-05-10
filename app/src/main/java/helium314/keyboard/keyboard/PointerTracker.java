@@ -1283,9 +1283,10 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
             return;
         }
         final int code = key.getCode();
+        final SettingsValues sv = Settings.getValues();
         if (code == KeyCode.LANGUAGE_SWITCH
                 || (code == Constants.CODE_SPACE && key.getPopupKeys() == null
-                        && Settings.getValues().mSpaceForLangChange)) {
+                        && sv.mSpaceForLangChange)) {
             // Long pressing the space key invokes IME switcher dialog.
             if (sListener.onCustomRequest(Constants.CUSTOM_CODE_SHOW_INPUT_METHOD_PICKER)) {
                 cancelKeyTracking();
@@ -1293,7 +1294,7 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
                 return;
             }
         }
-        if (code == KeyCode.SYMBOL_ALPHA && Settings.getValues().mLongPressSymbolsForNumpad) {
+        if (code == KeyCode.SYMBOL_ALPHA && sv.mLongPressSymbolsForNumpad) {
             // toggle numpad with sliding input enabled, forcing return to the alpha layout
             // when done
             sListener.toggleNumpad(true, true);

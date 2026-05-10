@@ -135,7 +135,6 @@
     <string name="theme_name_darker" tools:keep="@string/theme_name_darker">更深色</string>
     <string name="theme_name_chocolate" tools:keep="@string/theme_name_chocolate">巧克力色</string>
     <string name="theme_name_forest" tools:keep="@string/theme_name_forest">森林</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">海洋</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">粉紅色</string>
     <string name="theme_name_user" tools:keep="@string/theme_name_user">使用者定義</string>
     <string name="theme_name_brown" tools:keep="@string/theme_name_brown">棕色</string>

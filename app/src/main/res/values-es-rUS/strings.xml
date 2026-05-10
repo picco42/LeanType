@@ -279,7 +279,6 @@
     <string name="subtype_probhat_bn_BD">%s (Probhat)</string>
     <string name="subtype_generic_sebeolsik_390">%s (Sebeolsik 390)</string>
     <string name="subtype_generic_sebeolsik_final">%s (Sebeolsik Final)</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Océano</string>
     <string name="theme_name_dark" tools:keep="@string/theme_name_dark">Oscuro</string>
     <string name="theme_name_darker" tools:keep="@string/theme_name_darker">Más oscuro</string>
     <string name="theme_name_black" tools:keep="@string/theme_name_black">Negro</string>

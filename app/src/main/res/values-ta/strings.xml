@@ -362,7 +362,6 @@
     <string name="theme_name_cloudy" tools:keep="@string/theme_name_cloudy">மேகமூட்டம்</string>
     <string name="theme_name_forest" tools:keep="@string/theme_name_forest">காடு</string>
     <string name="theme_name_indigo" tools:keep="@string/theme_name_indigo">இண்டிகோ</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">பெருங்கடல்</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">இளஞ்சிவப்பு</string>
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">மணல்</string>
     <string name="theme_name_violette" tools:keep="@string/theme_name_violette">வயலட்</string>

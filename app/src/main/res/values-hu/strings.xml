@@ -259,7 +259,6 @@
     <string name="theme_name_cloudy" tools:keep="@string/theme_name_cloudy">Felhős</string>
     <string name="theme_name_forest" tools:keep="@string/theme_name_forest">Erdő</string>
     <string name="theme_name_indigo" tools:keep="@string/theme_name_indigo">Indigó</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Óceán</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">Rózsaszín</string>
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">Homok</string>
     <string name="theme_name_violette" tools:keep="@string/theme_name_violette">Ibolya</string>

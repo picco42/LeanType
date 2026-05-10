@@ -37,6 +37,7 @@ import helium314.keyboard.latin.common.Colors;
 import helium314.keyboard.latin.common.Constants;
 import helium314.keyboard.latin.common.StringUtilsKt;
 import helium314.keyboard.latin.settings.Settings;
+import helium314.keyboard.latin.settings.SettingsValues;
 import helium314.keyboard.latin.suggestions.MoreSuggestions;
 import helium314.keyboard.latin.suggestions.MoreSuggestionsView;
 import helium314.keyboard.latin.utils.TypefaceUtils;
@@ -301,8 +302,9 @@ public class KeyboardView extends View {
             return;
         }
 
-        mShowsHints = Settings.getValues().mShowsHints;
-        final float scale = Settings.getValues().mKeyboardHeightScale;
+        final SettingsValues sv = Settings.getValues();
+        mShowsHints = sv.mShowsHints;
+        final float scale = sv.mKeyboardHeightScale;
         mIconScaleFactor = scale < 0.8f ? scale + 0.2f : 1f;
         final Paint paint = mPaint;
         final Drawable background = getBackground();

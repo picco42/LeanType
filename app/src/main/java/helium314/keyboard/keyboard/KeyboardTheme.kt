@@ -63,7 +63,7 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
         const val THEME_CLOUDY = "cloudy"
         const val THEME_FOREST = "forest"
         const val THEME_INDIGO = "indigo"
-        const val THEME_OCEAN = "ocean"
+        const val THEME_MINT_AND_PINK = "mint_and_pink"
         const val THEME_PINK = "pink"
         const val THEME_SAND = "sand"
         const val THEME_VIOLETTE = "violette"
@@ -83,7 +83,7 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
             THEME_FOREST,
             if (!isNight) THEME_INDIGO else null,
             if (!isNight) THEME_PINK else null,
-            THEME_OCEAN,
+            THEME_MINT_AND_PINK,
             if (!isNight) THEME_SAND else null,
             THEME_VIOLETTE
         )
@@ -317,16 +317,16 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
                     Color.BLACK,
                     keyboardBackground = backgroundImage
                 )
-                THEME_OCEAN -> DefaultColors(
+                THEME_MINT_AND_PINK -> DefaultColors(
                     themeStyle,
                     hasBorders,
-                    Color.rgb(255, 124, 0),
-                    Color.rgb(89, 109, 155),
-                    Color.rgb(132, 157, 212),
-                    Color.rgb(81, 116, 194),
-                    Color.rgb(132, 157, 212),
-                    Color.WHITE,
-                    Color.WHITE,
+                    -290689, // accent
+                    -1447458, // background
+                    -530, // keyBg
+                    -7088225, // functionalKeyBg
+                    -530, // spacebarBg
+                    Color.BLACK,
+                    Color.BLACK,
                     keyboardBackground = backgroundImage
                 )
                 THEME_PINK -> DefaultColors(

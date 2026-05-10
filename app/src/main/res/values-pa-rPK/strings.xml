@@ -78,7 +78,6 @@
     <string name="subtype_sr_Latn">سربیائی (لاطینی)</string>
     <string name="dialog_close">بند کرو</string>
     <string name="clipboard" tools:keep="@string/clipboard">کلپ بورڈ</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">سمندری</string>
     <string name="day_or_night_night">رات</string>
     <string name="layout_phone" tools:keep="@string/layout_phone">فون</string>
     <string name="theme_name_dark" tools:keep="@string/theme_name_dark">نھیرا</string>

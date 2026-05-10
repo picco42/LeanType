@@ -168,7 +168,6 @@
     <string name="dictionary_link_text">her</string>
     <string name="add_dictionary">Velg ordbok å legge til. Ordbøker i formatet .dict kan lastes ned %s.</string>
     <string name="dictionary_file_error">Feil: Valgt fil er ikke en gyldig ordbok-fil</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Hav</string>
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">Sand</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">Rosa</string>
     <string name="auto_user_color">Velge farge automatisk</string>

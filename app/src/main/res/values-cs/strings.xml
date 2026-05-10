@@ -211,7 +211,6 @@
     <string name="internal_dictionary_summary">Interní hlavní slovník</string>
     <string name="user_dict_word_already_present">Toto slovo se již nachází v uživatelském slovníku %s. Zadejte prosím jiné.</string>
     <string name="theme_name_forest" tools:keep="@string/theme_name_forest">Lesní</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Oceánový</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">Růžový</string>
     <string name="hidden_features_summary">Zobrazit funkce, které mohou zůstat nepovšimnuty</string>
     <string name="hidden_features_text">chráněné úložiště zařízení</string>

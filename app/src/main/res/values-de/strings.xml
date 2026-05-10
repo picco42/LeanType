@@ -218,7 +218,6 @@
     <string name="down" tools:keep="@string/down">Runter</string>
     <string name="toolbar_keys">Symbolleistentasten wählen</string>
     <string name="license">Open-Source-Lizenz</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Ozean</string>
     <string name="backup_error">Sicherungsfehler: %s</string>
     <string name="show_popup_hints_summary">Hinweise anzeigen, wenn langes Drücken einer Taste zusätzliche Funktionen auslöst</string>
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">Sand</string>

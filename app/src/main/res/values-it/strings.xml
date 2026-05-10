@@ -252,7 +252,6 @@
     <string name="auto_user_color">Scegli automaticamente</string>
     <string name="settings_screen_about">Informazioni</string>
     <string name="license">Licenza open-source</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Oceano</string>
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">Sabbia</string>
     <string name="theme_style">Stile dei tasti</string>
     <string name="hidden_features_summary">Mostra le funzionalità che potrebbero passare inosservate</string>

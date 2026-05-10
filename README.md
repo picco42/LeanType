@@ -50,7 +50,12 @@ This fork adds **optional AI-powered features** using Gemini, Groq, and OpenAI-c
 
 ## Download
 
-You can download the latest release from the [GitHub Releases](https://github.com/LeanBitLab/HeliboardL/releases) page.
+<a href="https://github.com/LeanBitLab/HeliboardL/releases/latest">
+  <img alt="Get it on GitHub" src="docs/images/get-it-on-github.png" height="80">
+</a>
+<a href="https://f-droid.org/en/packages/com.leanbitlab.leantype/index.html">
+  <img alt="Get it on F-Droid" src="docs/images/get-it-on-fdroid.png" height="80">
+</a>
 
 ### 📦 Choose Your Version
 
@@ -128,7 +133,6 @@ See [LICENSE](/LICENSE) file.
 - **[HeliBoard](https://github.com/Helium314/HeliBoard)** by Helium314 - The excellent keyboard this fork is based on
 - [OpenBoard](https://github.com/openboard-team/openboard)
 - [AOSP Keyboard](https://android.googlesource.com/platform/packages/inputmethods/LatinIME/)
-- Original icon by [Fabian OvrWrt](https://github.com/FabianOvrWrt)
 - All [HeliBoard Contributors](https://github.com/Helium314/HeliBoard/graphs/contributors)
 
 ### LeanType

@@ -220,7 +220,6 @@
     <string name="theme_name_dark" tools:keep="@string/theme_name_dark">Escuro</string>
     <string name="theme_name_dynamic" tools:keep="@string/theme_name_dynamic">Cores dinâmicas</string>
     <string name="theme_name_indigo" tools:keep="@string/theme_name_indigo">Índigo</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Oceano</string>
     <string name="main_colors">Mostrar apenas cores principais</string>
     <string name="custom_subtype">Subtipo personalizado</string>
     <string name="day_or_night_night">Noturno</string>

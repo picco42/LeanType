@@ -308,7 +308,6 @@
     <string name="theme_name_chocolate" tools:keep="@string/theme_name_chocolate">Chokolade</string>
     <string name="theme_name_cloudy" tools:keep="@string/theme_name_cloudy">Overskyet</string>
     <string name="theme_name_forest" tools:keep="@string/theme_name_forest">Skov</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Hav</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">Pink</string>
     <string name="gnu_gpl">GNU General Public License v3.0</string>
     <string name="settings_screen_toolbar">Værktøjslinje</string>

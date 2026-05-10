@@ -242,7 +242,6 @@
     <string name="theme_name_user" tools:keep="@string/theme_name_user">Definită de utilizator</string>
     <string name="dictionary_settings_category">Dicționare</string>
     <string name="internal_dictionary_summary">Dicționar principal intern</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Ocean</string>
     <string name="select_color_suggestion">Text bandă de sugestii</string>
     <string name="hidden_features_text">stocarea protejată a dispozitivului</string>
     <string name="replace_dictionary_message">Înlocuiești cu adevărat dicționarul adăugat de utilizator „%1$s”? \n \nDicționarul curent: \n%2$s \n \nDicționarul nou: \n%3$s</string>

@@ -258,7 +258,6 @@
     <string name="theme_name_cloudy" tools:keep="@string/theme_name_cloudy">Hodeitsu</string>
     <string name="theme_name_forest" tools:keep="@string/theme_name_forest">Basoa</string>
     <string name="theme_name_indigo" tools:keep="@string/theme_name_indigo">Indigo</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Ozeanoa</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">Arrosa</string>
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">Hondarra</string>
     <string name="theme_name_violette" tools:keep="@string/theme_name_violette">Violeta</string>

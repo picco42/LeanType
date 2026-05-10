@@ -188,7 +188,6 @@
     <string name="theme_name_cloudy" tools:keep="@string/theme_name_cloudy">Хмарний</string>
     <string name="theme_name_forest" tools:keep="@string/theme_name_forest">Ліс</string>
     <string name="theme_name_indigo" tools:keep="@string/theme_name_indigo">Індиго</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Океан</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">Рожевий</string>
     <string name="theme_name_violette" tools:keep="@string/theme_name_violette">Віолетта</string>
     <string name="theme_name_brown" tools:keep="@string/theme_name_brown">Коричневий</string>

@@ -237,7 +237,6 @@
     <string name="theme_name_blue_gray" tools:keep="@string/theme_name_blue_gray">Biru Abu-abu</string>
     <string name="theme_name_brown" tools:keep="@string/theme_name_brown">Coklat</string>
     <string name="theme_name_chocolate" tools:keep="@string/theme_name_chocolate">Cokelat</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Laut</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">Merah muda</string>
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">Pasir</string>
     <string name="theme_name_violette" tools:keep="@string/theme_name_violette">Violet</string>

@@ -261,7 +261,6 @@
     <string name="theme_name_cloudy" tools:keep="@string/theme_name_cloudy">Nublado</string>
     <string name="theme_name_forest" tools:keep="@string/theme_name_forest">Foresta</string>
     <string name="theme_name_indigo" tools:keep="@string/theme_name_indigo">Índigo</string>
-    <string name="theme_name_ocean" tools:keep="@string/theme_name_ocean">Oceano</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">Rosa</string>
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">Areia</string>
     <string name="theme_name_violette" tools:keep="@string/theme_name_violette">Violeta</string>
