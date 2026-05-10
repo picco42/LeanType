@@ -68,6 +68,8 @@ fun LoadGestureLibPreference(
         libFile.setReadOnly()
         file.delete()
         onSuccess?.invoke()
+        isDownloading = false
+        showDialog = false
         if (restartOnSuccess) {
             Runtime.getRuntime().exit(0) // exit will restart the app, so library will be loaded
         }
