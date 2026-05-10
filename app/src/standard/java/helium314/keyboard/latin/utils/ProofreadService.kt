@@ -112,17 +112,7 @@ class ProofreadService(private val context: Context) {
                 for (i in 0 until modelsArray.length()) {
                     val model = modelsArray.getJSONObject(i)
                     val name = model.getString("name").removePrefix("models/")
-                    val methods = model.optJSONArray("supportedGenerationMethods")
-                    var isTextModel = false
-                    if (methods != null) {
-                        for (j in 0 until methods.length()) {
-                            if (methods.getString(j) == "generateContent") {
-                                isTextModel = true
-                                break
-                            }
-                        }
-                    }
-                    if (isTextModel) models.add(name)
+                    models.add(name)
                 }
                 models.ifEmpty { AVAILABLE_MODELS }
             } else {
@@ -152,12 +142,7 @@ class ProofreadService(private val context: Context) {
                 for (i in 0 until data.length()) {
                     val model = data.getJSONObject(i)
                     val id = model.getString("id")
-                    // Groq models are mostly text, but we filter out audio/vision models if possible
-                    // Currently filtering out Whisper (audio) models
-                    val isTextModel = !id.contains("whisper", ignoreCase = true)
-                    if (model.optBoolean("active", true) && isTextModel) {
-                        models.add(id)
-                    }
+                    models.add(id)
                 }
                 models.ifEmpty { GroqModels.AVAILABLE_MODELS }
             } else {

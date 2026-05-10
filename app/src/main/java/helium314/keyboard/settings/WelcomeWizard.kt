@@ -265,7 +265,7 @@ fun WelcomeWizard(
                     ) {
                         if (BuildConfig.FLAVOR == "standard") {
                             val service = remember { helium314.keyboard.latin.utils.ProofreadService(ctx) }
-                            val currentProvider = service.getProvider()
+                            var currentProvider by remember { mutableStateOf(service.getProvider()) }
                             val aiConfigured = when (currentProvider) {
                                 helium314.keyboard.latin.utils.ProofreadService.AIProvider.GEMINI -> service.hasApiKey()
                                 helium314.keyboard.latin.utils.ProofreadService.AIProvider.GROQ -> service.getGroqToken() != null
@@ -279,13 +279,15 @@ fun WelcomeWizard(
                                             ctx.getString(R.string.ai_provider_huggingface) to helium314.keyboard.latin.utils.ProofreadService.AIProvider.GROQ.name,
                                             ctx.getString(R.string.ai_provider_gemini) to helium314.keyboard.latin.utils.ProofreadService.AIProvider.GEMINI.name,
                                             ctx.getString(R.string.ai_provider_openai) to helium314.keyboard.latin.utils.ProofreadService.AIProvider.OPENAI.name
-                                        ), service.getProvider().name, onChanged = {
-                                            service.setProvider(helium314.keyboard.latin.utils.ProofreadService.AIProvider.valueOf(it))
+                                        ), currentProvider.name, onChanged = {
+                                            val newProvider = helium314.keyboard.latin.utils.ProofreadService.AIProvider.valueOf(it)
+                                            service.setProvider(newProvider)
+                                            currentProvider = newProvider
                                             refreshTrigger++
                                         })
                                     }.Preference()
                                     
-                                    when (service.getProvider()) {
+                                    when (currentProvider) {
                                         helium314.keyboard.latin.utils.ProofreadService.AIProvider.GEMINI -> {
                                             helium314.keyboard.settings.Setting(ctx, helium314.keyboard.settings.SettingsWithoutKey.GEMINI_API_KEY, R.string.gemini_api_key_title, R.string.gemini_api_key_summary) { setting ->
                                                 TextInputPreference(setting, service.getApiKey() ?: "", onConfirmed = {
