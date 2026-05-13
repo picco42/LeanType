@@ -323,6 +323,7 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
      */
     @Override
     public void setKeyboard(@NonNull final Keyboard keyboard) {
+        PointerTracker.switchTo(this);
         // Remove any pending messages, except dismissing preview and key repeat.
         mTimerHandler.cancelLongPressTimers();
         super.setKeyboard(keyboard);
@@ -621,6 +622,7 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
         if (getKeyboard() == null) {
             return false;
         }
+        PointerTracker.switchTo(this);
         if (mNonDistinctMultitouchHelper != null) {
             if (event.getPointerCount() > 1 && mTimerHandler.isInKeyRepeat()) {
                 // Key repeating timer will be canceled if 2 or popup keys are in action.
@@ -634,6 +636,7 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
     }
 
     public boolean processMotionEvent(final MotionEvent event) {
+        PointerTracker.switchTo(this);
         final int index = event.getActionIndex();
         final int id = event.getPointerId(index);
         final PointerTracker tracker = PointerTracker.getPointerTracker(id);
