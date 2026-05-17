@@ -366,7 +366,6 @@ public final class EmojiPalettesView extends LinearLayout
         
         // Visual indicator for selected tab
         if (categoryId == mEmojiCategory.getCurrentCategoryId()) {
-            mColors.setColor(iconView, ColorType.EMOJI_CATEGORY_SELECTED);
             iconView.setBackgroundResource(R.drawable.toolbar_key_background);
             Settings.getValues().mColors.setColor(iconView.getBackground(), ColorType.TOOL_BAR_EXPAND_KEY_BACKGROUND);
         }
@@ -1013,7 +1012,6 @@ public final class EmojiPalettesView extends LinearLayout
                     Settings.getValues().mColors.setBackground((ImageView) old, ColorType.STRIP_BACKGROUND);
                 }
                 if (current instanceof ImageView) {
-                    Settings.getValues().mColors.setColor((ImageView) current, ColorType.EMOJI_CATEGORY_SELECTED);
                     current.setBackgroundResource(R.drawable.toolbar_key_background);
                     Settings.getValues().mColors.setColor(current.getBackground(), ColorType.TOOL_BAR_EXPAND_KEY_BACKGROUND);
                 }
