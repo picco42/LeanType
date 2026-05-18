@@ -1,5 +1,5 @@
-# Keep native methods
--keepclassmembers class * {
+# Keep classes that contain native methods
+-keep class * {
     native <methods>;
 }
 
