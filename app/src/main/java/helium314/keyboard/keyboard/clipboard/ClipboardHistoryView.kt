@@ -416,12 +416,7 @@ class ClipboardHistoryView @JvmOverloads constructor(
         val keyboardView = findViewById<MainKeyboardView>(R.id.bottom_row_keyboard)
         keyboardView.setKeyboardActionListener(this)  // Set 'this' as listener to intercept
         PointerTracker.switchTo(keyboardView)
-        // Use Builder to get correct layout
-        val builder = KeyboardLayoutSet.Builder(context, editorInfo)
-            .setSubtype(RichInputMethodManager.getInstance().currentSubtype)
-            .setKeyboardGeometry(ResourceUtils.getKeyboardWidth(context, Settings.getValues()), ResourceUtils.getKeyboardHeight(context.resources, Settings.getValues()))
-        
-        val kls = builder.build()
+        val kls = KeyboardLayoutSet.Builder.buildEmojiClipBottomRow(context, editorInfo)
         val keyboard = kls.getKeyboard(elementId)
         keyboardView.setKeyboard(keyboard)
     }

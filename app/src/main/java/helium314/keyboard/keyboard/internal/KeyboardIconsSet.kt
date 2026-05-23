@@ -295,7 +295,7 @@ class KeyboardIconsSet private constructor() {
                     ToolbarKey.INCOGNITO -> R.drawable.ic_incognito_final
                     ToolbarKey.TOUCHPAD -> R.drawable.ic_touchpad_rounded
                     ToolbarKey.AUTOCORRECT -> R.drawable.ic_autocorrect_rounded
-                    ToolbarKey.CLEAR_CLIPBOARD -> R.drawable.ic_bin_rounded
+                    ToolbarKey.CLEAR_CLIPBOARD -> R.drawable.ic_bin
                     ToolbarKey.CLOSE_HISTORY -> R.drawable.ic_close_rounded
                     ToolbarKey.EMOJI -> R.drawable.sym_keyboard_smiley_rounded
                     ToolbarKey.LEFT -> R.drawable.ic_dpad_left_rounded
