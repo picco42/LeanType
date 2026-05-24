@@ -2952,17 +2952,16 @@ public final class InputLogic {
         // essentially reverted
         // https://github.com/lineageos/android_packages_inputmethods_LatinIME/commit/ee6de1466bc98e27bd414c9a7451f2aee3f9e721
         // can't find any drawback (performance, neither when setting nor when reading)
-        String wordToCommit = chosenWord;
-        boolean isExpanded = false;
-        
         final boolean isEnabled = helium314.keyboard.latin.utils.TextExpanderUtils.INSTANCE.isEnabled(mLatinIME);
         if (isEnabled) {
             final String prefix = helium314.keyboard.latin.utils.TextExpanderUtils.INSTANCE.getPrefix(mLatinIME);
             if (prefix.isEmpty()) {
                 final String expanded = helium314.keyboard.latin.utils.TextExpanderUtils.INSTANCE.getExpandedWord(chosenWord, mLatinIME);
                 if (expanded != null) {
-                    wordToCommit = expanded;
-                    isExpanded = true;
+                    mConnection.commitText(getTextWithSuggestionSpan(mLatinIME, chosenWord, mSuggestedWords, getDictionaryFacilitatorLocale()), 1);
+                    mConnection.deleteTextBeforeCursor(chosenWord.length());
+                    mConnection.commitText(expanded, 1);
+                    return;
                 }
             } else {
                 final CharSequence textBefore = mConnection.getTextBeforeCursor(50, 0);
@@ -2972,15 +2971,16 @@ public final class InputLogic {
                     if (textStr.toLowerCase(java.util.Locale.US).endsWith(targetSuffix.toLowerCase(java.util.Locale.US))) {
                         final String expanded = helium314.keyboard.latin.utils.TextExpanderUtils.INSTANCE.getExpandedWord(targetSuffix, mLatinIME);
                         if (expanded != null) {
-                            mConnection.deleteTextBeforeCursor(prefix.length());
-                            wordToCommit = expanded;
-                            isExpanded = true;
+                            mConnection.commitText(getTextWithSuggestionSpan(mLatinIME, chosenWord, mSuggestedWords, getDictionaryFacilitatorLocale()), 1);
+                            mConnection.deleteTextBeforeCursor(prefix.length() + chosenWord.length());
+                            mConnection.commitText(expanded, 1);
+                            return;
                         }
                     }
                 }
             }
         }
-        final CharSequence chosenWordWithSuggestions = getTextWithSuggestionSpan(mLatinIME, wordToCommit,
+        final CharSequence chosenWordWithSuggestions = getTextWithSuggestionSpan(mLatinIME, chosenWord,
                 mSuggestedWords, getDictionaryFacilitatorLocale());
         if (DebugFlags.DEBUG_ENABLED) {
             long runTimeMillis = System.currentTimeMillis() - startTimeMillis;
@@ -3010,9 +3010,7 @@ public final class InputLogic {
             startTimeMillis = System.currentTimeMillis();
         }
         // Add the word to the user history dictionary
-        if (!isExpanded) {
-            performAdditionToUserHistoryDictionary(settingsValues, chosenWord, ngramContext);
-        }
+        performAdditionToUserHistoryDictionary(settingsValues, chosenWord, ngramContext);
         if (DebugFlags.DEBUG_ENABLED) {
             long runTimeMillis = System.currentTimeMillis() - startTimeMillis;
             Log.d(TAG, "commitChosenWord() : " + runTimeMillis + " ms to run "
