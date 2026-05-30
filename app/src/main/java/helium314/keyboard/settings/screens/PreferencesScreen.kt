@@ -206,7 +206,7 @@ fun createPreferencesSettings(context: Context) = listOf(
         ) {
             helium314.keyboard.keyboard.internal.KeyboardIconsSet.needsReload = true
             helium314.keyboard.keyboard.internal.KeyboardIconsSet.instance.loadIcons(ctx)
-            KeyboardSwitcher.getInstance().reloadKeyboard()
+            KeyboardSwitcher.getInstance().setThemeNeedsReload()
         }
     },
     Setting(context, Settings.PREF_VIBRATION_DURATION_SETTINGS, R.string.prefs_keypress_vibration_duration_settings) { setting ->
