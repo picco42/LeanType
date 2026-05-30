@@ -213,6 +213,7 @@
     <!-- Preferences item for showing pinned clipboard items first -->
     <string name="clipboard_history_pinned_first">Show pinned items on top</string>
     <string name="clipboard_fold_pinned">Fold pinned items by default</string>
+    <string name="clipboard_pinned">Pinned</string>
     <!-- Hint for clipboard search bar -->
     <string name="clipboard_search_hint">Search clips...</string>
     <!-- Text for empty clipboard state -->

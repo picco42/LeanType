@@ -109,8 +109,8 @@ class ClipboardAdapter(
                 )
                 lp.isFullSpan = true
                 layoutParams = lp
-                gravity = android.view.Gravity.CENTER
-                setPadding(32, 24, 32, 24)
+                gravity = android.view.Gravity.START or android.view.Gravity.CENTER_VERTICAL
+                setPadding(36, 24, 36, 24)
             }
             HeaderViewHolder(textView)
         } else {
@@ -139,14 +139,14 @@ class ClipboardAdapter(
     inner class HeaderViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView) {
         fun bind(header: ClipboardDisplayItem.Header) {
             textView.apply {
-                typeface = itemTypeFace
+                typeface = Typeface.create(itemTypeFace, Typeface.BOLD)
                 setTextColor(itemTextColor)
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, itemTextSize)
                 setBackgroundResource(itemBackgroundId)
                 
                 text = buildString {
-                    append(if (header.isFolded) "📁 " else "📂 ")
-                    append(context.getString(R.string.clipboard_history_pinned_first))
+                    append(if (header.isFolded) "▶  " else "▼  ")
+                    append(context.getString(R.string.clipboard_pinned))
                     append(" (")
                     append(header.count)
                     append(")")
