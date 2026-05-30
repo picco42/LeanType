@@ -205,6 +205,7 @@ fun createPreferencesSettings(context: Context) = listOf(
             default = Defaults.PREF_CLEAR_CLIPBOARD_ICON
         ) {
             helium314.keyboard.keyboard.internal.KeyboardIconsSet.needsReload = true
+            helium314.keyboard.keyboard.internal.KeyboardIconsSet.instance.loadIcons(ctx)
             KeyboardSwitcher.getInstance().reloadKeyboard()
         }
     },
