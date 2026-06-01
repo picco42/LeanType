@@ -1,0 +1,3 @@
+- Fix missing words and swapped values during Gboard dictionary import
+- Improve Gboard import performance using bulk database insertion
+- Pre-verify ZIP signatures and safely close streams to prevent corrupted imports
