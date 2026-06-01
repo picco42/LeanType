@@ -768,6 +768,12 @@ private class DictionaryGroup(
 ) {
     private val subDicts: ConcurrentHashMap<String, ExpandableBinaryDictionary> = ConcurrentHashMap(subDicts)
 
+    // Monitor for the blacklist set + file I/O. The previous code used
+    // `synchronized(this)` inside an `apply { }` and `scope.launch { }` block, which
+    // re-bound `this` to the inner receiver (the HashSet / CoroutineScope). Two
+    // concurrent blacklist operations could then run without mutual exclusion.
+    private val blacklistLock = Any()
+
     /** Removes a word from all dictionaries in this group. If the word is in a read-only dictionary, it is blacklisted. */
     fun removeWord(word: String) {
         // remove from user history
@@ -855,7 +861,7 @@ private class DictionaryGroup(
     private val blacklist = hashSetOf<String>().apply {
         if (blacklistFile?.isFile != true) return@apply
         scope.launch {
-            synchronized(this) {
+            synchronized(blacklistLock) {
                 try {
                     addAll(blacklistFile.readLines())
                 } catch (e: IOException) {
@@ -870,7 +876,7 @@ private class DictionaryGroup(
     fun addToBlacklist(word: String) {
         if (!blacklist.add(word) || blacklistFile == null) return
         scope.launch {
-            synchronized(this) {
+            synchronized(blacklistLock) {
                 try {
                     if (blacklistFile.isDirectory) blacklistFile.delete()
                     blacklistFile.appendText("$word\n")
@@ -884,7 +890,7 @@ private class DictionaryGroup(
     fun removeFromBlacklist(word: String) {
         if (!blacklist.remove(word) || blacklistFile == null) return
         scope.launch {
-            synchronized(this) {
+            synchronized(blacklistLock) {
                 try {
                     val newLines = blacklistFile.readLines().filterNot { it == word }
                     blacklistFile.writeText(newLines.joinToString("\n"))
