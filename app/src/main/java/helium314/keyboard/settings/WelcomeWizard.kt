@@ -233,7 +233,10 @@ fun WelcomeWizard(
                         val gestureLibInstalled = java.io.File(ctx.filesDir, "libjni_latinime.so").exists() || JniUtils.sHaveGestureLib
 
                         Box(Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceVariant, MaterialTheme.shapes.medium)) {
-                            LoadEmojiLibPreference("Emoji Dictionary")
+                            LoadEmojiLibPreference(
+                                title = "Emoji Dictionary",
+                                onSuccess = { refreshTrigger++ }
+                            )
                             if (emojiLibInstalled) {
                                 Icon(painterResource(R.drawable.ic_setup_check), null, Modifier.align(Alignment.CenterEnd).padding(end = 16.dp), tint = MaterialTheme.colorScheme.primary)
                             }
