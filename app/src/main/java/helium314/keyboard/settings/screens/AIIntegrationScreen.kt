@@ -40,12 +40,20 @@ private fun StandardAIIntegrationScreen(onClickBack: () -> Unit) {
     // Use remember to avoid re-creating the service on every recomposition
     val service = remember(ctx) { helium314.keyboard.latin.utils.ProofreadService(ctx) }
 
-    // Provider is read from the service on every recomposition. The service
-    // reads from SharedPreferences so this is cheap. We don't need a
-    // top-level MutableStateFlow to keep the AIIntegrationScreen in sync
-    // with provider changes made on the AdvancedScreen: when the user
-    // returns to this screen, the search settings list is rebuilt.
-    val provider = service.getProvider().name
+    var provider by remember { mutableStateOf(service.getProvider().name) }
+
+    androidx.compose.runtime.DisposableEffect(service) {
+        val listener = android.content.SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+            if (key == "ai_provider") {
+                provider = service.getProvider().name
+            }
+        }
+        val prefs = service.getPrefs()
+        prefs.registerOnSharedPreferenceChangeListener(listener)
+        onDispose {
+            prefs.unregisterOnSharedPreferenceChangeListener(listener)
+        }
+    }
 
     val items = buildList {
         // Always show provider selection

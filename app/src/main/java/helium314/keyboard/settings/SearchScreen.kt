@@ -119,7 +119,9 @@ fun SearchSettingsScreen(
                                     }
                                     
                                     keys.forEach { key ->
-                                        SettingsActivity.settingsContainer[key]?.Preference()
+                                        androidx.compose.runtime.key(key) {
+                                            SettingsActivity.settingsContainer[key]?.Preference()
+                                        }
                                     }
                                 }
                             }

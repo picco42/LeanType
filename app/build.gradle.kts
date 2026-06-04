@@ -56,6 +56,12 @@ android {
                 keyPassword = keystoreProperties["keyPassword"] as String
                 storeFile = rootProject.file(keystoreProperties["storeFile"] as String)
                 storePassword = keystoreProperties["storePassword"] as String
+                // Disable v2/v3 signing to avoid CHUNKED_SHA256 mismatch caused by
+                // AGP injecting META-INF files after signature computation.
+                // v1 (JAR) signing only verifies individual entry integrity.
+                enableV1Signing = true
+                enableV2Signing = false
+                enableV3Signing = false
             }
         }
     }
