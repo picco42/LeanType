@@ -118,6 +118,11 @@
     <string name="auto_cap_summary">Capitalize the first word of each sentence</string>
     <!-- Option to edit personal dictionary.-->
     <string name="edit_personal_dictionary">Personal dictionary</string>
+    <string name="edit_blocked_words">Blocked words</string>
+    <string name="blocked_words_summary">Manage words blocked from suggestions</string>
+    <string name="add_blocked_word">Block a word</string>
+    <string name="blocked_word_already_present">Word is already blocked</string>
+    <string name="clear_all_blocked_words_confirmation">Are you sure you want to unblock all words?</string>
     <!-- Name of the main dictionary, as opposed to auxiliary dictionaries (medical/entertainment/sports...) -->
     <string name="main_dictionary">Main dictionary</string>
     <!-- Option to enable showing suggestions -->

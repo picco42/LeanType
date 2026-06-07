@@ -31,6 +31,7 @@ import helium314.keyboard.settings.screens.LanguageScreen
 import helium314.keyboard.settings.screens.MainSettingsScreen
 import helium314.keyboard.settings.screens.PersonalDictionariesScreen
 import helium314.keyboard.settings.screens.PersonalDictionaryScreen
+import helium314.keyboard.settings.screens.BlockedWordsScreen
 import helium314.keyboard.settings.screens.PreferencesScreen
 import helium314.keyboard.settings.screens.SecondaryLayoutScreen
 import helium314.keyboard.settings.screens.SubtypeScreen
@@ -144,6 +145,9 @@ fun SettingsNavHost(
         composable(SettingsDestination.PersonalDictionaries) {
             PersonalDictionariesScreen(onClickBack = ::goBack)
         }
+        composable(SettingsDestination.BlockedWords) {
+            BlockedWordsScreen(onClickBack = ::goBack)
+        }
         composable(SettingsDestination.Languages) {
             LanguageScreen(onClickBack = ::goBack)
         }
@@ -186,6 +190,7 @@ object SettingsDestination {
     const val ColorsNight = "colors_night/"
     const val PersonalDictionaries = "personal_dictionaries"
     const val PersonalDictionary = "personal_dictionary/"
+    const val BlockedWords = "blocked_words"
     const val Languages = "languages"
     const val Subtype = "subtype/"
     const val Layouts = "layouts"
