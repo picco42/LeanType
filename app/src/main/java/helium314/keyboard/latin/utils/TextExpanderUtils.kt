@@ -16,6 +16,7 @@ object TextExpanderUtils {
     const val PREF_ENABLED = "pref_text_expander_enabled"
     const val PREF_PREFIX = "pref_text_expander_prefix"
     const val PREF_DATA = "pref_text_expander_data"
+    const val REGEX_PREFIX = "__regex__:"
 
     fun isEnabled(context: Context): Boolean {
         return context.prefs().getBoolean(PREF_ENABLED, false)
@@ -195,8 +196,27 @@ object TextExpanderUtils {
         
         val shortcuts = getShortcuts(context)
         // Check exact match or lowercase match
-        val template = shortcuts[shortcut] ?: shortcuts[shortcut.lowercase(Locale.getDefault())] ?: return null
+        val template = shortcuts[shortcut] ?: shortcuts[shortcut.lowercase(Locale.getDefault())]
+        if (template != null) {
+            return expand(template, context)
+        }
+
+        // Check regex matches
+        for ((key, value) in shortcuts) {
+            if (key.startsWith(REGEX_PREFIX)) {
+                val patternStr = key.substring(REGEX_PREFIX.length)
+                try {
+                    val regex = Regex(patternStr, RegexOption.IGNORE_CASE)
+                    if (regex.matches(shortcut)) {
+                        val replaced = regex.replace(shortcut, value)
+                        return expand(replaced, context)
+                    }
+                } catch (e: Exception) {
+                    // ignore invalid regex
+                }
+            }
+        }
         
-        return expand(template, context)
+        return null
     }
 }
