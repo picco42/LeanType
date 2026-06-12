@@ -88,7 +88,7 @@ LeanType integrates with AI providers to offer advanced proofreading and transla
 | **Groq** | 🟡 Average | 🟢 Easy | High | **Speed** |
 | **Google Gemini** | 🔴 Low | 🟢 Easy | Generous | General Purpose |
 | **HF/OpenAI-compatible** | ⚙️ *Varies* | 🟡 Medium | *Varies* | **Fully Customizable** |
-| **Offline (ONNX)** | 🟢 **Best** | 🟡 Medium | ∞ Unlimited | **Privacy** |
+| **Offline (Llama)** | 🟢 **Best** | 🟡 Medium | ∞ Unlimited | **Privacy** |
 
 > [!TIP]
 > The **HF/OpenAI-compatible** option is fully customizable—you can change the API endpoint, token, and model to use *any* OpenAI-compatible service (OpenRouter, Mistral, DeepSeek, HuggingFace, etc.).
@@ -265,30 +265,30 @@ Control how the result is inserted.
 
 **Note**: This feature is only available in the "Offline" build flavor of LeanType.
 
-Offline proofreading runs entirely on your device using the ONNX Runtime engine. No data leaves your device.
+Offline proofreading runs entirely on your device using the `llama.cpp` runtime. No data leaves your device.
 
 > [!NOTE]
 > **Status: Beta / Experimental**
-> This feature is in a test phase. The engine is designed to be compatible with various T5-based ONNX models (Basic, Quantized, KV-Cache). We encourage you to experiment with different models to find the best balance of speed and accuracy for your device.
+> Running large language models on device requires a modern smartphone with sufficient RAM (typically 6GB+). We recommend using highly quantized, compact GGUF models (e.g. Q4_K_M or IQ4_NL) for the best balance of speed, accuracy, and memory usage.
 
 ### Setup Instructions
 
-1.  **Download Model Files**: Download the **Encoder**, **Decoder**, and **Tokenizer** for your chosen model from the table below.
+1.  **Download a GGUF Model**: Download a compatible `.gguf` model file (see Recommended Models below).
 2.  **Configure App**:
     *   Go to **Settings > Advanced**.
-    *   **Encoder Model**: Select the downloaded `.onnx` encoder file.
-    *   **Decoder Model**: Select the downloaded `.onnx` decoder file.
-    *   **Tokenizer**: Select the `tokenizer.json` file.
-    *   **System Instruction**: Enter the text specified in the "System Instruction" column for your model (leave empty if specified).
+    *   **GGUF Model**: Select the downloaded `.gguf` model file.
+    *   **System Instruction**: (Optional) Customize the prompt used to guide the model when proofreading text.
+    *   **Translate Instruction**: (Optional) Customize the prompt used for translation.
+    *   **Target Language**: Select the target language for offline translation.
+    *   **Sampling Settings**: Adjust temperature, Top-K, and Top-P to control model creativity.
 
 ### Recommended Models
 
-| Model & Purpose | Performance / Size | System Instruction | Download Links (Direct) |
-| :--- | :--- | :--- | :--- |
-| **Visheratin T5 Tiny**<br>*(Grammar Correction Only)* | ⚡ **Fastest**<br>~35 MB<br>Low RAM usage | **Empty**<br>(Leave blank) | • [Encoder](https://huggingface.co/visheratin/t5-efficient-tiny-grammar-correction/resolve/main/encoder_model_quant.onnx)<br>• [Decoder](https://huggingface.co/visheratin/t5-efficient-tiny-grammar-correction/resolve/main/init_decoder_quant.onnx)<br>• [Tokenizer](https://huggingface.co/visheratin/t5-efficient-tiny-grammar-correction/tree/main) |
-| **Flan-T5 Small**<br>*(Translation & General)* | 🐢 **Slower**<br>~300 MB<br>Higher accuracy | **Required**<br>`fix grammar: `<br>or<br>`translate English to Spanish: ` | • [Encoder](https://huggingface.co/Xenova/flan-t5-small/resolve/main/onnx/encoder_model_quantized.onnx)<br>• [Decoder](https://huggingface.co/Xenova/flan-t5-small/resolve/main/onnx/decoder_model_quantized.onnx)<br>• [Tokenizer](https://huggingface.co/Xenova/flan-t5-small/tree/main) |
+*   **Llama 3.2 1B Instruct (Q4_K_M)**: Excellent general purpose compact model (~900 MB).
+*   **Qwen 2.5 1.5B Instruct (Q4_K_M)**: High accuracy and quality, fast on modern devices (~1.1 GB).
+*   **Qwen 2.5 0.5B Instruct (Q4_K_M)**: Extremely lightweight, very fast with minimal memory footprint (~350 MB).
 
-*Note: For Flan-T5, the quantized models linked above are standard recommendations. Users have also reported success with `bnb4` quantized variants if available.*
+You can find and download these models in GGUF format on HuggingFace (e.g., from users like `bartowski` or `Qwen`).
 
 ---
 
