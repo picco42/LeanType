@@ -1,6 +1,6 @@
 - Support custom sampling and prompts in offline AI settings
 - Switch offline AI backend from ONNX Runtime to llama.cpp
-- Add rich touchpad gestures: double tap to select word, two-finger horizontal drag to navigate word-by-word, two-finger double tap to copy, three-finger tap to paste, three-finger double tap to cut, three-finger swipe left to delete selection/word, and three-finger swipe up/down for undo/redo
+- Add rich touchpad gestures: double tap to select word, two-finger drag to navigate word-by-word, two-finger tap to insert space, two-finger double tap to copy/paste, two-finger triple tap to cut/select all, two-finger swipe up/down for undo/redo, and two-finger hold to backspace word/selection
 - Add regex expansion support to Text Expander
 - Add option to automatically read and suggest OTP from SMS
 - Add Blocked Words screen with case-insensitive and regex blacklist support

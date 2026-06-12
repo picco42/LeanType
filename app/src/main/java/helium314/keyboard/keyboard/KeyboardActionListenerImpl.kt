@@ -559,7 +559,7 @@ class KeyboardActionListenerImpl(private val latinIME: LatinIME, private val inp
                 }
             }
             override fun onSingleTap() {
-                onCodeInput(Constants.CODE_ENTER, Constants.NOT_A_COORDINATE, Constants.NOT_A_COORDINATE, false)
+                onCodeInput(Constants.CODE_SPACE, Constants.NOT_A_COORDINATE, Constants.NOT_A_COORDINATE, false)
             }
             override fun onDoubleTap() {
                 onCodeInput(KeyCode.CLIPBOARD_SELECT_WORD, Constants.NOT_A_COORDINATE, Constants.NOT_A_COORDINATE, false)
@@ -571,14 +571,18 @@ class KeyboardActionListenerImpl(private val latinIME: LatinIME, private val inp
                 if (connection.hasSelection()) {
                     onCodeInput(KeyCode.CLIPBOARD_COPY, Constants.NOT_A_COORDINATE, Constants.NOT_A_COORDINATE, false)
                 } else {
-                    onCodeInput(KeyCode.CLIPBOARD_SELECT_ALL, Constants.NOT_A_COORDINATE, Constants.NOT_A_COORDINATE, false)
+                    onCodeInput(KeyCode.CLIPBOARD_PASTE, Constants.NOT_A_COORDINATE, Constants.NOT_A_COORDINATE, false)
                 }
             }
             override fun onThreeFingerTap() {
                 onCodeInput(KeyCode.CLIPBOARD_PASTE, Constants.NOT_A_COORDINATE, Constants.NOT_A_COORDINATE, false)
             }
             override fun onThreeFingerDoubleTap() {
-                onCodeInput(KeyCode.CLIPBOARD_CUT, Constants.NOT_A_COORDINATE, Constants.NOT_A_COORDINATE, false)
+                if (connection.hasSelection()) {
+                    onCodeInput(KeyCode.CLIPBOARD_CUT, Constants.NOT_A_COORDINATE, Constants.NOT_A_COORDINATE, false)
+                } else {
+                    onCodeInput(KeyCode.CLIPBOARD_SELECT_ALL, Constants.NOT_A_COORDINATE, Constants.NOT_A_COORDINATE, false)
+                }
             }
             override fun onThreeFingerSwipeLeft() {
                 if (connection.hasSelection()) {

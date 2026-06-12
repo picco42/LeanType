@@ -332,15 +332,11 @@ Touchpad Mode replaces the keyboard with a laptop-style touchpad overlay to cont
 *   **Double Tap**: Selects the word under the cursor.
 *   **Long Press & Drag**: Enters text selection mode and selects text as you drag.
 
-#### 2 Fingers (Fast Navigation & Copying)
-*   **Vertical Drag**: Moves the cursor vertically line-by-line.
-*   **Horizontal Drag**: Moves the cursor horizontally word-by-word.
-*   **Tap**: Simulates Enter.
-*   **Double Tap**: Copies selected text (or Selects All if no selection exists).
-
-#### 3 Fingers (Clipboard, Undo/Redo & Deletion)
-*   **Tap**: Pastes clipboard contents at the cursor.
-*   **Double Tap**: Cuts selected text.
-*   **Swipe Left**: Deletes/Backspaces selection (or deletes the word to the left of the cursor if no selection exists).
+#### 2 Fingers (Navigation, Clipboard, History & Deletion)
+*   **Drag Left/Right**: Moves the cursor horizontally word-by-word.
 *   **Swipe Up**: Undo.
 *   **Swipe Down**: Redo.
+*   **Tap**: Inserts a space character.
+*   **Double Tap**: Copies selected text (or Pastes clipboard contents if no selection exists).
+*   **Triple Tap**: Cuts selected text (or Selects All if no selection exists).
+*   **Press & Hold (Long Press)**: Deletes (backspaces) selection / word to the left. Repeats automatically if held.
