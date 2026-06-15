@@ -291,6 +291,14 @@
     <string name="load_gesture_library_download_success">Download complete! Restarting…</string>
     <!-- Message shown when download fails -->
     <string name="load_gesture_library_download_failed">Download failed: %s</string>
+    <!-- Preferences item for loading an external handwriting plugin -->
+    <string name="load_handwriting_plugin">Load handwriting plugin</string>
+    <string name="load_handwriting_plugin_summary">Provide an APK plugin to enable handwriting input</string>
+    <string name="load_handwriting_plugin_message">Provide a handwriting plugin APK.\n\nWarning: loading external code can be a security risk. Only use a plugin from a source you trust.</string>
+    <string name="load_handwriting_plugin_button_load">Load plugin APK</string>
+    <string name="load_handwriting_plugin_button_delete">Delete plugin</string>
+    <string name="load_handwriting_plugin_success">Handwriting plugin imported successfully</string>
+    <string name="load_handwriting_plugin_failed">Failed to load handwriting plugin APK</string>
     <!-- Preferences item for inserting space after punctuation -->
     <string name="autospace_after_punctuation">Autospace after punctuation</string>
     <!-- Description for "autospace_after_punctuation" setting -->
@@ -1030,6 +1038,7 @@ New dictionary:
     <string name="libraries_hub_gesture_title">Gesture Typing Library</string>
     <string name="libraries_hub_dictionary_title">Main Dictionaries</string>
     <string name="libraries_hub_emoji_title">Emoji Libraries</string>
+    <string name="libraries_hub_handwriting_title">Handwriting Input Plugin</string>
     <string name="libraries_hub_dict_guide_title">Dictionary Loading Guide</string>
     <string name="libraries_hub_dict_guide_text">To add a new dictionary:\n1. Obtain a .dict file for your language.\n2. Tap \"Manage Dictionaries\".\n3. Use the plus (+) button to import the file.</string>
     <string name="libraries_status_active">Active</string>

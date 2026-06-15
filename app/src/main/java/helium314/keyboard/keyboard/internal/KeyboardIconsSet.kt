@@ -163,6 +163,7 @@ class KeyboardIconsSet private constructor() {
                     ToolbarKey.AUTOCORRECT -> R.drawable.ic_autocorrect
                     ToolbarKey.CLEAR_CLIPBOARD -> R.drawable.ic_bin
                     ToolbarKey.CLOSE_HISTORY -> R.drawable.ic_close
+                    ToolbarKey.HANDWRITING -> R.drawable.ic_edit
                     ToolbarKey.EMOJI -> R.drawable.sym_keyboard_smiley_holo
                     ToolbarKey.LEFT -> R.drawable.ic_dpad_left
                     ToolbarKey.RIGHT -> R.drawable.ic_dpad_right
@@ -239,6 +240,7 @@ class KeyboardIconsSet private constructor() {
                     ToolbarKey.AUTOCORRECT -> R.drawable.ic_autocorrect
                     ToolbarKey.CLEAR_CLIPBOARD -> R.drawable.ic_bin
                     ToolbarKey.CLOSE_HISTORY -> R.drawable.ic_close
+                    ToolbarKey.HANDWRITING -> R.drawable.ic_edit
                     ToolbarKey.EMOJI -> R.drawable.sym_keyboard_smiley_lxx
                     ToolbarKey.LEFT -> R.drawable.ic_dpad_left
                     ToolbarKey.RIGHT -> R.drawable.ic_dpad_right
@@ -315,6 +317,7 @@ class KeyboardIconsSet private constructor() {
                     ToolbarKey.AUTOCORRECT -> R.drawable.ic_autocorrect_rounded
                     ToolbarKey.CLEAR_CLIPBOARD -> R.drawable.ic_bin
                     ToolbarKey.CLOSE_HISTORY -> R.drawable.ic_close_rounded
+                    ToolbarKey.HANDWRITING -> R.drawable.ic_edit
                     ToolbarKey.EMOJI -> R.drawable.sym_keyboard_smiley_rounded
                     ToolbarKey.LEFT -> R.drawable.ic_dpad_left_rounded
                     ToolbarKey.RIGHT -> R.drawable.ic_dpad_right_rounded

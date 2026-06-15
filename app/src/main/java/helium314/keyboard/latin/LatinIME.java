@@ -1710,6 +1710,9 @@ public class LatinIME extends InputMethodService implements
                 mKeyboardSwitcher.getKeyboardShiftMode(),
                 mHandler);
         updateStateAfterInputTransaction(completeInputTransaction);
+        if (mKeyboardSwitcher.isHandwritingShowing()) {
+            mKeyboardSwitcher.clearHandwritingCanvas();
+        }
 
         if (suggestionInfo.mSourceDict != null && helium314.keyboard.latin.dictionary.Dictionary.TYPE_EMOJI
                 .equals(suggestionInfo.mSourceDict.mDictType)) {
