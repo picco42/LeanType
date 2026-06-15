@@ -6,3 +6,9 @@
 - Add Blocked Words screen with case-insensitive and regex blacklist support
 - Align Arabic diacritics spacing and update layout popup options
 - Fix dictionary crashes and emoji popup preview issues
+- Add support for dynamic handwriting input via plugin APK
+- Add selective backup and restore options
+- Automatically strip spaces before punctuation marks
+- Allow personal dictionary shortcut entries for the same word
+- Add network settings toggle for insecure HTTP/self-signed AI endpoints
+- Add auto-repeat support when holding toolbar arrow keys
