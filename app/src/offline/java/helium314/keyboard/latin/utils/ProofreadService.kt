@@ -381,7 +381,7 @@ class ProofreadService(private val context: Context) {
                     builder += "Input: $text\nOutput:"
                     builder
                 } else {
-                    "Instruction: ${systemPrompt.trim()}\nInput: $text\nOutput:"
+                    "Instruction: ${systemPrompt.trim()}\n\nInput: $text\nOutput:"
                 }
             } else {
                 // Default proofreading with few-shot examples for better local model guidance
@@ -454,6 +454,13 @@ class ProofreadService(private val context: Context) {
                         cleanedOutput = cleanedOutput.substring(0, idx).trim()
                     }
                 }
+            }
+            
+            // Also truncate at any newline followed by a potential template header (e.g., "\nDraft email:", "\nCorrection:")
+            val headerRegex = Regex("\\n[a-zA-Z0-9 ]+:")
+            val match = headerRegex.find(cleanedOutput)
+            if (match != null) {
+                cleanedOutput = cleanedOutput.substring(0, match.range.first).trim()
             }
             
             // Also strip common prefixes that the model might generate or echo
@@ -544,7 +551,7 @@ class ProofreadService(private val context: Context) {
             // Build parameters map
             val params = mutableMapOf<String, Any>(
                 "prompt" to prompt,
-                "emit_partial_completion" to showThinking,
+                "emit_partial_completion" to true,
                 "temperature" to temp.toDouble(),
                 "top_p" to topP.toDouble(),
                 "top_k" to topK,

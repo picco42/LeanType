@@ -311,6 +311,7 @@ public final class EmojiPalettesView extends LinearLayout
                 androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
         mSearchAdapter = new EmojiSearchAdapter(emoji -> {
             mKeyboardActionListener.onTextInput(emoji);
+            addRecentKey(emoji);
             // Optionally close search or keep it open for multiple inputs?
             // restore standard behavior: stop search
             stopSearchMode();

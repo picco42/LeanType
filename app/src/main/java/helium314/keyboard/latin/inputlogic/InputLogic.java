@@ -3489,35 +3489,43 @@ public final class InputLogic {
         final android.content.SharedPreferences prefs = helium314.keyboard.latin.utils.DeviceProtectedUtils
                 .getSharedPreferences(mLatinIME);
         String prompt = prefs.getString("pref_custom_ai_prompt_" + index, "");
-        String systemInstruction = "";
+        StringBuilder systemInstructionBuilder = new StringBuilder();
         boolean shouldAppend = false;
 
         // Keyword parsing for system instructions / personas
         if (prompt.contains("#editor")) {
-            systemInstruction = " You are a text editor tool. Output ONLY the edited text. Do not add any conversational filler.";
+            systemInstructionBuilder.append(" You are a text editor tool. Output ONLY the edited text. Do not add any conversational filler.");
             prompt = prompt.replace("#editor", "").trim();
-        } else if (prompt.contains("#outputonly")) {
-            systemInstruction = " Output ONLY the result. Do not add introductions or explanations.";
+        }
+        if (prompt.contains("#outputonly")) {
+            systemInstructionBuilder.append(" Output ONLY the result. Do not add introductions or explanations.");
             prompt = prompt.replace("#outputonly", "").trim();
-        } else if (prompt.contains("#proofread")) {
-            systemInstruction = " You are a proofreader. Fix grammar and spelling errors. Output ONLY the fixed text.";
+        }
+        if (prompt.contains("#proofread")) {
+            systemInstructionBuilder.append(" You are a proofreader. Fix grammar and spelling errors. Output ONLY the fixed text.");
             prompt = prompt.replace("#proofread", "").trim();
-        } else if (prompt.contains("#paraphrase")) {
-            systemInstruction = " You are a paraphrasing tool. Rewrite the text using different words while keeping the meaning. Output ONLY the result.";
+        }
+        if (prompt.contains("#paraphrase")) {
+            systemInstructionBuilder.append(" You are a paraphrasing tool. Rewrite the text using different words while keeping the meaning. Output ONLY the result.");
             prompt = prompt.replace("#paraphrase", "").trim();
-        } else if (prompt.contains("#summarize")) {
-            systemInstruction = " You are a summarizer. Provide a concise summary of the text. Output ONLY the summary.";
+        }
+        if (prompt.contains("#summarize")) {
+            systemInstructionBuilder.append(" You are a summarizer. Provide a concise summary of the text. Output ONLY the summary.");
             prompt = prompt.replace("#summarize", "").trim();
-        } else if (prompt.contains("#expand")) {
-            systemInstruction = " You are a creative writing assistant. Expand on the text with more details. Output ONLY the result.";
+        }
+        if (prompt.contains("#expand")) {
+            systemInstructionBuilder.append(" You are a creative writing assistant. Expand on the text with more details. Output ONLY the result.");
             prompt = prompt.replace("#expand", "").trim();
-        } else if (prompt.contains("#toneshift")) {
-            systemInstruction = " You are a tone modifier. Adjust the tone as requested. Output ONLY the result.";
+        }
+        if (prompt.contains("#toneshift")) {
+            systemInstructionBuilder.append(" You are a tone modifier. Adjust the tone as requested. Output ONLY the result.");
             prompt = prompt.replace("#toneshift", "").trim();
-        } else if (prompt.contains("#generate")) {
-            systemInstruction = " You are a creative content generator. Output ONLY the generated content.";
+        }
+        if (prompt.contains("#generate")) {
+            systemInstructionBuilder.append(" You are a creative content generator. Output ONLY the generated content.");
             prompt = prompt.replace("#generate", "").trim();
         }
+        String systemInstruction = systemInstructionBuilder.toString();
 
         // Input handling keywords
         if (prompt.contains("#append")) {

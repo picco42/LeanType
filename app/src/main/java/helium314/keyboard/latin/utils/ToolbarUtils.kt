@@ -272,11 +272,13 @@ enum class ToolbarMode {
 val toolbarKeyStrings = entries.associateWithTo(EnumMap(ToolbarKey::class.java)) { it.toString().lowercase(Locale.US) }
 
 private val excludedKeys by lazy {
-    val customAiKeys = if (BuildConfig.FLAVOR != "standard" && BuildConfig.FLAVOR != "standardOptimised")
+    val customAiKeys = if (BuildConfig.FLAVOR != "standard" && BuildConfig.FLAVOR != "standardOptimised" && BuildConfig.FLAVOR != "offline")
         ToolbarKey.entries.filter { it.name.startsWith("CUSTOM_AI_") }
     else emptyList()
     val otherKeys = if (BuildConfig.FLAVOR == "offlinelite")
-        listOf(CLOSE_HISTORY, PROOFREAD, TRANSLATE, CLIPBOARD_SEARCH)
+        listOf(CLOSE_HISTORY, PROOFREAD, TRANSLATE, CLIPBOARD_SEARCH, HANDWRITING)
+    else if (BuildConfig.FLAVOR == "offline")
+        listOf(CLOSE_HISTORY, CLIPBOARD_SEARCH, HANDWRITING)
     else
         listOf(CLOSE_HISTORY, CLIPBOARD_SEARCH)
     customAiKeys + otherKeys
@@ -284,8 +286,8 @@ private val excludedKeys by lazy {
 
 val defaultToolbarPref by lazy {
     val default = when (helium314.keyboard.latin.BuildConfig.FLAVOR) {
-        "offline" -> listOf(SETTINGS, VOICE, CLIPBOARD, HANDWRITING, UNDO, INCOGNITO, COPY, PASTE, PROOFREAD, TRANSLATE)
-        "offlinelite" -> listOf(SETTINGS, VOICE, CLIPBOARD, HANDWRITING, UNDO, INCOGNITO, COPY, PASTE)
+        "offline" -> listOf(SETTINGS, VOICE, CLIPBOARD, CUSTOM_AI_1, CUSTOM_AI_2, CUSTOM_AI_3, UNDO, INCOGNITO, COPY, PASTE, PROOFREAD, TRANSLATE)
+        "offlinelite" -> listOf(SETTINGS, VOICE, CLIPBOARD, UNDO, INCOGNITO, COPY, PASTE)
         else -> listOf(SETTINGS, VOICE, CLIPBOARD, HANDWRITING, CUSTOM_AI_1, CUSTOM_AI_2, CUSTOM_AI_3, UNDO, PROOFREAD, TRANSLATE, INCOGNITO, TOUCHPAD, FLOATING, NUMPAD, COPY, PASTE, SELECT_ALL)
     }
         
@@ -377,7 +379,8 @@ private fun getEnabledToolbarKeys(prefs: SharedPreferences, pref: String, defaul
         val split = it.split(Separators.KV)
         if (split.last() == "true") {
             try {
-                ToolbarKey.valueOf(split.first())
+                val key = ToolbarKey.valueOf(split.first())
+                if (key in excludedKeys) null else key
             } catch (_: IllegalArgumentException) {
                 null
             }

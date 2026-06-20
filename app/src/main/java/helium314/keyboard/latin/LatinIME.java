@@ -1714,8 +1714,8 @@ public class LatinIME extends InputMethodService implements
             mKeyboardSwitcher.clearHandwritingCanvas();
         }
 
-        if (suggestionInfo.mSourceDict != null && helium314.keyboard.latin.dictionary.Dictionary.TYPE_EMOJI
-                .equals(suggestionInfo.mSourceDict.mDictType)) {
+        if (suggestionInfo.isEmoji() || (suggestionInfo.mSourceDict != null && helium314.keyboard.latin.dictionary.Dictionary.TYPE_EMOJI
+                .equals(suggestionInfo.mSourceDict.mDictType))) {
             final helium314.keyboard.keyboard.emoji.EmojiPalettesView emojiView = mKeyboardSwitcher
                     .getEmojiPalettesView();
             if (emojiView != null) {

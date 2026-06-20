@@ -29,6 +29,7 @@ import helium314.keyboard.settings.preferences.LoadGestureLibPreference
 import helium314.keyboard.settings.preferences.LoadEmojiLibPreference
 import helium314.keyboard.settings.preferences.LoadHandwritingPluginPreference
 import helium314.keyboard.latin.handwriting.HandwritingLoader
+import helium314.keyboard.latin.BuildConfig
 import helium314.keyboard.latin.common.Links
 import helium314.keyboard.settings.preferences.Preference
 import androidx.compose.ui.platform.LocalUriHandler
@@ -95,13 +96,15 @@ fun LibrariesHubScreen(
                         )
 
                         // Handwriting Input Plugin
-                        var handwritingInstalled by remember { mutableStateOf(HandwritingLoader.hasPlugin(context)) }
-                        LoadHandwritingPluginPreference(
-                            title = stringResource(R.string.libraries_hub_handwriting_title),
-                            summary = if (handwritingInstalled) stringResource(R.string.libraries_status_active) else stringResource(R.string.libraries_status_not_installed),
-                            icon = R.drawable.ic_edit,
-                            onSuccess = { handwritingInstalled = HandwritingLoader.hasPlugin(context) }
-                        )
+                        if (BuildConfig.FLAVOR == "standard" || BuildConfig.FLAVOR == "standardOptimised") {
+                            var handwritingInstalled by remember { mutableStateOf(HandwritingLoader.hasPlugin(context)) }
+                            LoadHandwritingPluginPreference(
+                                title = stringResource(R.string.libraries_hub_handwriting_title),
+                                summary = if (handwritingInstalled) stringResource(R.string.libraries_status_active) else stringResource(R.string.libraries_status_not_installed),
+                                icon = R.drawable.ic_edit,
+                                onSuccess = { handwritingInstalled = HandwritingLoader.hasPlugin(context) }
+                            )
+                        }
 
                         // Documentation & Features
                         val uriHandler = LocalUriHandler.current

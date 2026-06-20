@@ -62,6 +62,7 @@ import java.util.concurrent.TimeUnit
 @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 class DictionaryFacilitatorImpl : DictionaryFacilitator {
     private var mPrefs: SharedPreferences? = null
+    private var mContext: Context? = null
     private var mEnabledDictionariesState: Map<String, Boolean> = emptyMap()
     private var dictionaryGroups = listOf(DictionaryGroup())
 
@@ -77,6 +78,9 @@ class DictionaryFacilitatorImpl : DictionaryFacilitator {
     private var tryChangingWords = false
     private var changeFrom = ""
     private var changeTo = ""
+
+    private var mLoadedSuggestEmojis: Boolean = false
+    private var mLoadedEmojiDictExists: Boolean = false
 
     private val SPELLING_DICTIONARY_TYPES = arrayOf(
         Dictionary.TYPE_MAIN,
@@ -144,6 +148,12 @@ class DictionaryFacilitatorImpl : DictionaryFacilitator {
                 return false
             }
         }
+        val ctx = mContext ?: return false
+        val currentSuggestEmojis = Settings.getValues().mSuggestEmojis
+        val currentEmojiDictExists = locales.any { helium314.keyboard.latin.utils.DictionaryInfoUtils.getCachedDictForLocaleAndType(it, Dictionary.TYPE_EMOJI, ctx) != null }
+        if (currentSuggestEmojis != mLoadedSuggestEmojis || currentEmojiDictExists != mLoadedEmojiDictExists) {
+            return false
+        }
         val dictGroup = dictionaryGroups[0] // settings are the same for all groups
         return contacts == dictGroup.hasDict(Dictionary.TYPE_CONTACTS)
                 && apps == dictGroup.hasDict(Dictionary.TYPE_APPS)
@@ -165,6 +175,7 @@ class DictionaryFacilitatorImpl : DictionaryFacilitator {
         listener: DictionaryInitializationListener?
     ) {
         Log.i(TAG, "resetDictionaries, force reloading main dictionary: $forceReloadMainDictionary")
+        mContext = context.applicationContext
         val prefs = context.prefs()
         mPrefs = prefs
         mEnabledDictionariesState = prefs.all.filterKeys { it.startsWith("pref_dict_enabled_") }
@@ -237,7 +248,11 @@ class DictionaryFacilitatorImpl : DictionaryFacilitator {
 
             // create new or re-use already loaded main dict
             val mainDict: Dictionary?
-            if (forceReload || oldDictGroupForLocale == null
+            val currentSuggestEmojis = Settings.getValues().mSuggestEmojis
+            val currentEmojiDictExists = helium314.keyboard.latin.utils.DictionaryInfoUtils.getCachedDictForLocaleAndType(locale, Dictionary.TYPE_EMOJI, context) != null
+            val forceReloadMain = forceReload || (currentSuggestEmojis != mLoadedSuggestEmojis) || (currentEmojiDictExists != mLoadedEmojiDictExists)
+
+            if (forceReloadMain || oldDictGroupForLocale == null
                 || !oldDictGroupForLocale.hasDict(Dictionary.TYPE_MAIN)
             ) {
                 mainDict = null // null main dicts will be loaded later in asyncReloadUninitializedMainDictionaries
@@ -276,6 +291,8 @@ class DictionaryFacilitatorImpl : DictionaryFacilitator {
         scope.launch {
             try {
                 val useEmojiDict = Settings.getValues().mSuggestEmojis
+                mLoadedSuggestEmojis = useEmojiDict
+                mLoadedEmojiDictExists = locales.any { helium314.keyboard.latin.utils.DictionaryInfoUtils.getCachedDictForLocaleAndType(it, Dictionary.TYPE_EMOJI, context) != null }
                 val dictGroupsWithNewMainDict = locales.mapNotNull {
                     val dictionaryGroup = findDictionaryGroupWithLocale(dictionaryGroups, it)
                     if (dictionaryGroup == null) {
