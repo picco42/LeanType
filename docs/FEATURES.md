@@ -15,6 +15,7 @@ LeanType integrates with AI providers to offer advanced proofreading and transla
 | 🛡️ **[Offline Proofreading](#5-offline-proofreading-privacy-focused)** | Privacy-first, on-device AI. |
 | 📝 **[Text Expander](#6-text-expander)** | Custom text shortcut expansion. |
 | 🖱️ **[Touchpad Mode](#7-touchpad-mode)** | Full-screen touchpad gestures and controls. |
+| ✍️ **[Handwriting Input](#8-handwriting-input)** | Use handwriting recognition to draw letters directly on a canvas. |
 
 ## Summary of New Features
 
@@ -22,6 +23,7 @@ LeanType integrates with AI providers to offer advanced proofreading and transla
 | :--- | :--- | :--- |
 | **Multi-Provider AI** | Uses Gemini, Groq, or OpenAI to proofread/rewrite text. Fetch latest models dynamically. | `AI Integration > Set AI Provider` |
 | **Offline Proofreading** | Private, on-device AI for grammar (requires downloads). | `AI Integration > Offline Proofreading` |
+| **GGUF Model Support** | Load and run highly quantized, compact GGUF models on-device for offline proofreading/translation. | `Advanced > GGUF Model (.gguf)` |
 | **Custom AI Keys** | 10 toolbar keys with custom prompts, tags (themed capsules), and toggle settings (supports hashtags). | `AI Integration > Custom Keys` |
 | **AI Translation** | Translates selected text via your configured AI provider (includes separate model selector). | Toolbar > Translate Icon |
 | **Floating Keyboard** | Detach the keyboard into a draggable window with a persistent mode option. | Toolbar > Floating Keyboard |
@@ -37,6 +39,7 @@ LeanType integrates with AI providers to offer advanced proofreading and transla
 | **Screenshot on Clipboard** | Automatically saves taken screenshots to your clipboard history. | *Automatic (when enabled)* |
 | **Clipboard Undo** | Undo swipe-to-delete on clipboard items with a timed undo bar. | *Automatic (on swipe delete)* |
 | **Text Expander** | Expand custom shortcuts using dynamic template variables (date, time, clipboard, custom placeholders). | `Text correction > Text Expander` |
+| **Handwriting Input** | Draw letters or words directly on the screen keyboard space to type (standard variant, requires plugin). | `Libraries > Handwriting Input Plugin` |
 
 ---
 
@@ -340,3 +343,33 @@ Touchpad Mode replaces the keyboard with a laptop-style touchpad overlay to cont
 *   **Double Tap**: Copies selected text (or Pastes clipboard contents if no selection exists).
 *   **Triple Tap**: Cuts selected text (or Selects All if no selection exists).
 *   **Press & Hold (Long Press)**: Deletes (backspaces) selection / word to the left. Repeats automatically if held.
+
+---
+
+## 8. Handwriting Input
+
+> [!NOTE]
+> **Availability**: This feature is only available in the **Standard** (`-standard-release.apk`) and **Standard Optimised** build flavors. It is excluded from the **Offline** and **Offline Lite** variants.
+
+LeanType integrates a handwriting recognition canvas that allows you to write characters directly on the keyboard using your finger or a stylus.
+
+### Setup Instructions
+
+1. **Install the Plugin**:
+   * Go to **Settings > Libraries**.
+   * Under **Handwriting Input Plugin**, tap **Download** to pull the latest plugin APK from the [Leantype-Handwriting-Plugin](https://github.com/LeanBitLab/Leantype-Handwriting-Plugin) GitHub repository.
+   * Alternatively, you can tap to load a locally downloaded plugin APK file.
+   * Review the security warning and confirm the installation. The app will verify and register the plugin.
+
+2. **Accessing the Handwriting Key**:
+   * The **Handwriting** icon (represented by a pencil/edit icon) is placed on your keyboard toolbar by default in supported variants.
+   * If it is not showing, you can customize the toolbar under **Settings > Preferences > Keyboard toolbar** to enable it.
+
+### How to Use
+
+1. Tap the **Handwriting** icon in the toolbar.
+2. The keyboard area will switch to a handwriting drawing canvas.
+3. Draw characters, words, or punctuation symbols on the canvas. The keyboard will automatically inputs recognized characters.
+4. Tap the **Clear (X)** button on the bottom row to clear the current drawing canvas.
+5. Tap the **Handwriting** icon again to toggle back to the standard keyboard layout.
+

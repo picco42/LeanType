@@ -17,8 +17,9 @@ This fork adds **optional AI-powered features** using Gemini, Groq, and OpenAI-c
 ## What's New in LeanType
 
 - **[🤖 Multi-Provider AI](docs/FEATURES.md#supported-ai-providers)** - Proofread using **Gemini**, **Groq** (Llama 3, Mixtral), or **OpenAI-compatible** providers. Supports dynamic fetching of latest models directly from providers.
-- **[🛡️ Offline AI](docs/FEATURES.md#5-offline-proofreading-privacy-focused)** - Private, on-device proofreading and translation using ONNX models (Offline build only).
+- **[🛡️ Offline AI (GGUF)](docs/FEATURES.md#5-offline-proofreading-privacy-focused)** - Private, on-device proofreading and translation using local **GGUF models** powered by `llama.cpp` (Offline build only).
 - **🌐 AI Translation** - Translate selected text directly using your chosen AI provider, with a separate model selector.
+- **[✍️ Handwriting Input](docs/FEATURES.md#8-handwriting-input)** - Draw characters directly on a handwriting recognition canvas (Standard version, requires [Leantype-Handwriting-Plugin](https://github.com/LeanBitLab/Leantype-Handwriting-Plugin)).
 - **[🧠 Custom AI Keys](docs/FEATURES.md#4-custom-ai-keys--keywords)** - Assign custom prompts, personas (#editor, #proofread), and custom text labels/tags (showing as themed capsules) to 10 customizable toolbar keys.
 - **📝 Text Expander** - Built-in expansion tool supporting custom shortcuts and dynamic template variables (date, time, clipboard, custom placeholders).
 - **🪟 Floating Keyboard** - Detach the keyboard into a draggable window for seamless multitasking. Includes a persistent mode option to keep the keyboard floating.
@@ -31,7 +32,7 @@ This fork adds **optional AI-powered features** using Gemini, Groq, and OpenAI-c
 - **🔍 Clipboard Search & Undo** - Search through your clipboard history directly from the toolbar, undo accidental item deletions, and fold/collapse pinned items by default to save space.
 - **📸 Screenshot Suggestion & Clipboard** - Suggests recently taken screenshots for quick sharing via the suggestion strip and saves them to your clipboard history.
 - **🔎 Emoji Search** - Search for emojis by name. *Requires loading an Emoji Dictionary.*
-- **🔒 Privacy Choices** - Choose **Standard** (Opt-in AI), **Offline** (Hard-disabled network, offline model load), or **Offline Lite** (Minimalist, no AI) versions.
+- **🔒 Privacy Choices** - Choose **Standard** (Opt-in AI, Handwriting), **Offline** (Hard-disabled network, offline GGUF model load), or **Offline Lite** (Minimalist, no AI) versions.
 
 
 
@@ -76,17 +77,17 @@ This fork adds **optional AI-powered features** using Gemini, Groq, and OpenAI-c
 ### 📦 Choose Your Version
 
 #### 1. Standard Version (`-standard-release.apk`)
-*   **Features:** Full suite including **AI Proofreading**, **AI Translation**, and **Gesture Library Downloader**.
-*   **Permissions:** Request `INTERNET` permission (used *only* when you explicitly use AI features).
-*   **Setup:** Use the built-in downloader for Gesture Typing. Configure AI keys in Settings.
+*   **Features:** Full suite including **AI Proofreading**, **AI Translation**, **Handwriting Input**, and **Gesture Library Downloader**.
+*   **Permissions:** Request `INTERNET` permission (used *only* when you explicitly use AI features, download plugins, or update libraries).
+*   **Setup:** Use the built-in downloader for Gesture Typing and Handwriting Input. Configure AI keys in Settings.
 
 #### 2. Offline Version (`-offline-release.apk`)
-*   **Features:** All UI/UX enhancements and **Offline Neural Proofreading** (ONNX).
+*   **Features:** All UI/UX enhancements and **Offline Neural Proofreading** (via `llama.cpp` using local **GGUF models**).
 *   **Permissions:** **NO INTERNET PERMISSION**. Guaranteed at OS level.
 *   **Best For:** Privacy purists.
 *   **Manual Setup Required:**
     *   **Gesture Typing:** [Download library manually](https://github.com/erkserkserks/openboard/tree/46fdf2b550035ca69299ce312fa158e7ade36967/app/src/main/jniLibs) and load via *Settings > Gesture typing*.
-    *   **Offline AI:** Download ONNX models and load via *Settings > AI Integration*. 👉 **[See Offline Setup Instructions](docs/FEATURES.md#3-offline-proofreading-privacy-focused)**
+    *   **Offline AI:** Download GGUF models and load via *Settings > Advanced > GGUF Model (.gguf)*. 👉 **[See Offline Setup Instructions](docs/FEATURES.md#5-offline-proofreading-privacy-focused)**
 
 #### 3. Offline Lite Version (`-offlinelite-release.apk`)
 *   **Features:** All UI/UX enhancements but **NO AI FEATURES**.
