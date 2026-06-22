@@ -40,10 +40,6 @@ android {
             dimension = "privacy"
             minSdk = 23
         }
-        create("standardOptimised") {
-            dimension = "privacy"
-            minSdk = 23
-        }
         create("offline") {
             dimension = "privacy"
             applicationIdSuffix = ".offline"
@@ -110,7 +106,6 @@ android {
                 "standard" -> "1"
                 "offline" -> "2"
                 "offlinelite" -> "3"
-                "standardOptimised" -> "4"
                 else -> ""
             }
             if (number.isNotEmpty()) {
@@ -199,13 +194,7 @@ android {
         disable += "ExtraTranslation"
     }
 
-    sourceSets {
-        getByName("standardOptimised") {
-            java.srcDirs("src/standard/java")
-            res.srcDirs("src/standard/res")
-            manifest.srcFile("src/standard/AndroidManifest.xml")
-        }
-    }
+
 }
 
 dependencies {
@@ -234,8 +223,6 @@ dependencies {
     // gemini ai proofreading
     "standardImplementation"("com.google.ai.client.generativeai:generativeai:0.9.0")
     "standardImplementation"("androidx.security:security-crypto:1.1.0-alpha06") // for encrypted API key storage
-    "standardOptimisedImplementation"("com.google.ai.client.generativeai:generativeai:0.9.0")
-    "standardOptimisedImplementation"("androidx.security:security-crypto:1.1.0-alpha06")
 
     // local llm proofreading (offline)
     "offlineImplementation"("io.github.ljcamargo:llamacpp-kotlin:0.4.0")
@@ -252,7 +239,6 @@ dependencies {
     // ML Kit's internal asset manager and native library loader use the host app context,
     // so the host app must compile and include the client library resources/libraries.
     "standardImplementation"("com.google.mlkit:digital-ink-recognition:19.0.0")
-    "standardOptimisedImplementation"("com.google.mlkit:digital-ink-recognition:19.0.0")
 
     // test
     testImplementation(kotlin("test"))
@@ -268,11 +254,9 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 }
 
-// Disable baseline/ART profile tasks to guarantee deterministic reproducible builds (except for standardOptimised)
+// Disable baseline/ART profile tasks to guarantee deterministic reproducible builds
 tasks.configureEach {
     if (name.contains("ArtProfile", ignoreCase = true)) {
-        if (!name.contains("StandardOptimised", ignoreCase = true)) {
-            enabled = false
-        }
+        enabled = false
     }
 }
