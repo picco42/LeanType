@@ -31,12 +31,24 @@ import helium314.keyboard.latin.settings.Defaults
 import helium314.keyboard.latin.settings.Settings
 import helium314.keyboard.settings.Theme
 import helium314.keyboard.settings.dialogs.ConfirmationDialog
+import helium314.keyboard.settings.dialogs.ConfirmationDialogContent
 import java.io.File
 import java.util.Locale
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.setViewTreeLifecycleOwner
+import androidx.lifecycle.setViewTreeViewModelStoreOwner
+import androidx.savedstate.SavedStateRegistry
+import androidx.savedstate.SavedStateRegistryController
+import androidx.savedstate.SavedStateRegistryOwner
+import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 
 fun getDictionaryLocales(context: Context): MutableSet<Locale> {
     val locales = HashSet<Locale>()
@@ -64,7 +76,7 @@ fun getDictionaryLocales(context: Context): MutableSet<Locale> {
 }
 
 @Composable
-fun MissingDictionaryDialog(onDismissRequest: () -> Unit, locale: Locale) {
+fun MissingDictionaryDialog(onDismissRequest: () -> Unit, locale: Locale, inline: Boolean = false) {
     val context = LocalContext.current
     val prefs = context.prefs()
     if (prefs.getBoolean(Settings.PREF_DONT_SHOW_MISSING_DICTIONARY_DIALOG, Defaults.PREF_DONT_SHOW_MISSING_DICTIONARY_DIALOG)) {
@@ -86,23 +98,43 @@ fun MissingDictionaryDialog(onDismissRequest: () -> Unit, locale: Locale) {
     if (availableDicts.isNotEmpty() && knownDicts.isEmpty())
         annotatedString += AnnotatedString("\n") + availableDicts
 
-    ConfirmationDialog(
-        onDismissRequest = onDismissRequest,
-        cancelButtonText = stringResource(R.string.dialog_close),
-        onConfirmed = { prefs.edit { putBoolean(Settings.PREF_DONT_SHOW_MISSING_DICTIONARY_DIALOG, true) } },
-        confirmButtonText = stringResource(R.string.no_dictionary_dont_show_again_button),
-        content = {
-            androidx.compose.foundation.layout.Column {
-                Text(annotatedString)
-                if (knownDicts.isNotEmpty()) {
-                    androidx.compose.material3.HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-                    knownDicts.forEach { (desc, link) ->
-                        DownloadableDictionaryRow(locale = locale, desc = desc, link = link, onRefresh = {})
+    if (inline) {
+        ConfirmationDialogContent(
+            onDismissRequest = onDismissRequest,
+            cancelButtonText = stringResource(R.string.dialog_close),
+            onConfirmed = { prefs.edit { putBoolean(Settings.PREF_DONT_SHOW_MISSING_DICTIONARY_DIALOG, true) } },
+            confirmButtonText = stringResource(R.string.no_dictionary_dont_show_again_button),
+            content = {
+                androidx.compose.foundation.layout.Column {
+                    Text(annotatedString)
+                    if (knownDicts.isNotEmpty()) {
+                        androidx.compose.material3.HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                        knownDicts.forEach { (desc, link) ->
+                            DownloadableDictionaryRow(locale = locale, desc = desc, link = link, onRefresh = {})
+                        }
                     }
                 }
             }
-        }
-    )
+        )
+    } else {
+        ConfirmationDialog(
+            onDismissRequest = onDismissRequest,
+            cancelButtonText = stringResource(R.string.dialog_close),
+            onConfirmed = { prefs.edit { putBoolean(Settings.PREF_DONT_SHOW_MISSING_DICTIONARY_DIALOG, true) } },
+            confirmButtonText = stringResource(R.string.no_dictionary_dont_show_again_button),
+            content = {
+                androidx.compose.foundation.layout.Column {
+                    Text(annotatedString)
+                    if (knownDicts.isNotEmpty()) {
+                        androidx.compose.material3.HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                        knownDicts.forEach { (desc, link) ->
+                            DownloadableDictionaryRow(locale = locale, desc = desc, link = link, onRefresh = {})
+                        }
+                    }
+                }
+            }
+        )
+    }
 }
 
 /** if dictionaries for [locale] or language are available returns links to them */
@@ -279,10 +311,39 @@ fun isMainDictionaryMissing(context: Context, locale: Locale): Boolean {
     return known.any { (_, link) -> link.substringAfterLast("/").substringBefore("_") == "main" }
 }
 
+// ponytail: helper to host ComposeView in non-Activity window context (e.g. IME Service)
+private class ServiceLifecycleOwner : LifecycleOwner, SavedStateRegistryOwner, ViewModelStoreOwner {
+    private val lifecycleRegistry = LifecycleRegistry(this)
+    private val savedStateRegistryController = SavedStateRegistryController.create(this)
+    private val store = ViewModelStore()
+
+    init {
+        savedStateRegistryController.performRestore(null)
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    }
+
+    override val lifecycle: Lifecycle get() = lifecycleRegistry
+    override val savedStateRegistry: SavedStateRegistry get() = savedStateRegistryController.savedStateRegistry
+    override val viewModelStore: ViewModelStore get() = store
+
+    fun destroy() {
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+        store.clear()
+    }
+}
+
 // ponytail: bridge compose dialog to legacy view
 fun showMissingDictionaryComposeDialog(context: Context, locale: Locale, windowToken: IBinder, onDismiss: () -> Unit) {
     val dialog = android.app.Dialog(getPlatformDialogThemeContext(context))
+    val lifecycleOwner = ServiceLifecycleOwner()
     val composeView = androidx.compose.ui.platform.ComposeView(context).apply {
+        setViewTreeLifecycleOwner(lifecycleOwner)
+        setViewTreeSavedStateRegistryOwner(lifecycleOwner)
+        setViewTreeViewModelStoreOwner(lifecycleOwner)
         setContent {
             Theme {
                 MissingDictionaryDialog(
@@ -290,10 +351,14 @@ fun showMissingDictionaryComposeDialog(context: Context, locale: Locale, windowT
                         dialog.dismiss()
                         onDismiss()
                     },
-                    locale = locale
+                    locale = locale,
+                    inline = true
                 )
             }
         }
+    }
+    dialog.setOnDismissListener {
+        lifecycleOwner.destroy()
     }
     dialog.setContentView(composeView)
     val window = dialog.window
