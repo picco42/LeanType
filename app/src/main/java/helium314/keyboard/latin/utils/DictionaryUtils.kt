@@ -41,9 +41,9 @@ import kotlinx.coroutines.withContext
 fun getDictionaryLocales(context: Context): MutableSet<Locale> {
     val locales = HashSet<Locale>()
 
-    // get cached dictionaries: extracted or user-added dictionaries
+    // ponytail: get cached dictionaries: extracted or user-added/downloaded dictionaries
     DictionaryInfoUtils.getCacheDirectories(context).forEach { directory ->
-        if (!hasAnythingOtherThanExtractedMainDictionary(directory)) return@forEach
+        if (!hasAnythingOtherThanExtractedMainDictionary(context, directory)) return@forEach
         val locale = DictionaryInfoUtils.getWordListIdFromFileName(directory.name).constructLocale()
         locales.add(locale)
     }
@@ -55,11 +55,8 @@ fun getDictionaryLocales(context: Context): MutableSet<Locale> {
         }
     }
     // ponytail: include enabled locales and multilingual secondary locales
-    SubtypeSettings.getEnabledSubtypes().forEach { subtype ->
-        locales.add(subtype.locale())
-        getSecondaryLocales(subtype.extraValue).forEach { locales.add(it) }
-    }
-    SubtypeSettings.getAdditionalSubtypes().forEach { subtype ->
+    val enabled = SubtypeSettings.getEnabledSubtypes()
+    enabled.forEach { subtype ->
         locales.add(subtype.locale())
         getSecondaryLocales(subtype.extraValue).forEach { locales.add(it) }
     }
@@ -160,14 +157,27 @@ fun cleanUnusedMainDicts(context: Context) {
     for (dir in dirs) {
         if (!dir.isDirectory) continue
         if (dir.name in usedLocaleLanguageTags) continue
-        if (hasAnythingOtherThanExtractedMainDictionary(dir))
+        if (hasAnythingOtherThanExtractedMainDictionary(context, dir))
             continue
         dir.deleteRecursively()
     }
 }
 
-private fun hasAnythingOtherThanExtractedMainDictionary(dir: File) =
-    dir.listFiles()?.any { it.name != DictionaryInfoUtils.MAIN_DICT_FILE_NAME } != false
+// ponytail: check if the cached folder contains user-added or downloaded dicts (which shouldn't be automatically deleted or hidden)
+private fun hasAnythingOtherThanExtractedMainDictionary(context: Context, dir: File): Boolean {
+    val files = dir.listFiles() ?: return false
+    if (files.isEmpty()) return false
+    if (files.any { it.name != DictionaryInfoUtils.MAIN_DICT_FILE_NAME }) return true
+    if (files.any { it.name == DictionaryInfoUtils.MAIN_DICT_FILE_NAME }) {
+        val locale = DictionaryInfoUtils.getWordListIdFromFileName(dir.name).constructLocale()
+        val assetsList = DictionaryInfoUtils.getAssetsDictionaryList(context) ?: return true
+        val best = LocaleUtils.getBestMatch(locale, assetsList.toList()) {
+            DictionaryInfoUtils.extractLocaleFromAssetsDictionaryFile(it)
+        }
+        return best == null
+    }
+    return false
+}
 
 // ponytail: Dynamic dictionary downloader using HTTP URL connection.
 fun downloadDictionary(context: Context, locale: Locale, type: String, linkUrl: String, onComplete: (Boolean) -> Unit) {
