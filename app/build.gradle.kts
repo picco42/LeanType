@@ -29,7 +29,7 @@ android {
         proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         
         ndk {
-            abiFilters.addAll(arrayOf("arm64-v8a"))
+            abiFilters.addAll(arrayOf("armeabi-v7a", "arm64-v8a"))
         }
     }
 
