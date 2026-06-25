@@ -2,3 +2,5 @@
 - Add secure CI/CD release build signing workflow for reproducible builds
 - Re-add armeabi-v7a support to ABI filters
 - Fix suggestion word long-press to target entire word for deletion
+- Enable active next-word predictions on empty input in split mode
+- Make split mode fallback suggestions clickable and active
