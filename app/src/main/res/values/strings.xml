@@ -66,6 +66,8 @@
     <string name="settings_category_behavior">Behavior</string>
     <!-- Settings category title for Gesture Typing/Advanced -->
     <string name="settings_category_gestures_advanced">Advanced Gestures</string>
+    <!-- Settings category title for Touchpad options -->
+    <string name="settings_category_touchpad">Touchpad</string>
     <!--  Option for enabling or disabling the split keyboard layout in portrait mode.-->
     <string name="enable_split_keyboard">Enable split keyboard</string>
     <!--  Option for enabling or disabling the split keyboard layout in landscape mode.-->
@@ -337,6 +339,8 @@
     <string name="incognito">Force incognito mode</string>
     <string name="touchpad">Touchpad</string>
     <string name="text_edit">Text editing</string>
+    <string name="touchpad_fullscreen">Full-screen touchpad</string>
+    <string name="touchpad_fullscreen_summary">Hide suggestion strip and toolbar when touchpad mode is active</string>
     <!-- Description for "prefs_force_incognito_mode" option. -->
     <string name="prefs_force_incognito_mode_summary">Disable learning of new words</string>
     <!-- Content description for "popup keys" suggestions view -->

@@ -82,6 +82,7 @@ public class SettingsValues {
         public final int mSpaceSwipeVertical;
         public final int mLanguageSwipeDistance;
         public final int mTouchpadSensitivity;
+        public final boolean mTouchpadFullscreen;
         public final boolean mForceAutoCaps;
         public final boolean mDeleteSwipeEnabled;
         public final boolean mAutospaceAfterPunctuation;
@@ -339,6 +340,8 @@ public class SettingsValues {
                                 Defaults.PREF_LANGUAGE_SWIPE_DISTANCE);
                 mTouchpadSensitivity = prefs.getInt(Settings.PREF_TOUCHPAD_SENSITIVITY,
                                 Defaults.PREF_TOUCHPAD_SENSITIVITY);
+                mTouchpadFullscreen = prefs.getBoolean(Settings.PREF_TOUCHPAD_FULLSCREEN,
+                                Defaults.PREF_TOUCHPAD_FULLSCREEN);
                 mForceAutoCaps = prefs.getBoolean(Settings.PREF_FORCE_AUTO_CAPS, Defaults.PREF_FORCE_AUTO_CAPS);
                 mDeleteSwipeEnabled = prefs.getBoolean(Settings.PREF_DELETE_SWIPE, Defaults.PREF_DELETE_SWIPE);
                 mAutospaceAfterPunctuation = prefs.getBoolean(Settings.PREF_AUTOSPACE_AFTER_PUNCTUATION,

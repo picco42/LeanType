@@ -68,8 +68,11 @@ fun GestureTypingScreen(
         add(R.string.settings_category_gestures_advanced)
         add(Settings.PREF_SPACE_HORIZONTAL_SWIPE)
         add(Settings.PREF_SPACE_VERTICAL_SWIPE)
-        add(Settings.PREF_TOUCHPAD_SENSITIVITY)
         add(Settings.PREF_DELETE_SWIPE)
+
+        add(R.string.settings_category_touchpad)
+        add(Settings.PREF_TOUCHPAD_SENSITIVITY)
+        add(Settings.PREF_TOUCHPAD_FULLSCREEN)
     }
     SearchSettingsScreen(
         onClickBack = onClickBack,
@@ -160,6 +163,9 @@ fun createGestureTypingSettings(context: Context) = listOf(
             range = 0f..100f,
             description = { value -> value.toInt().toString() }
         )
+    },
+    Setting(context, Settings.PREF_TOUCHPAD_FULLSCREEN, R.string.touchpad_fullscreen, R.string.touchpad_fullscreen_summary) {
+        SwitchPreference(it, Defaults.PREF_TOUCHPAD_FULLSCREEN)
     },
     Setting(context, Settings.PREF_DELETE_SWIPE, R.string.delete_swipe, R.string.delete_swipe_summary) {
         SwitchPreference(it, Defaults.PREF_DELETE_SWIPE)

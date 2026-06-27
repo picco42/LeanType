@@ -660,6 +660,9 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
         mKeyboardViewWrapper.findViewById(R.id.btn_stop_one_handed_mode).setVisibility(View.GONE);
         mKeyboardViewWrapper.findViewById(R.id.btn_switch_one_handed_mode).setVisibility(View.GONE);
         mKeyboardViewWrapper.findViewById(R.id.btn_resize_one_handed_mode).setVisibility(View.GONE);
+        if (Settings.getValues().mTouchpadFullscreen) {
+            mStripContainer.setVisibility(View.GONE);
+        }
         // Apply bottom padding to avoid overlapping the navigation bar
         mTouchpadView.setPadding(
             mKeyboardView.getPaddingLeft(),
@@ -677,6 +680,7 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
         mTouchpadView.setVisibility(View.GONE);
         mKeyboardView.setVisibility(View.VISIBLE);
         mKeyboardView.setAlpha(1.0f);
+        mStripContainer.setVisibility(Settings.getValues().mToolbarMode == ToolbarMode.HIDDEN ? View.GONE : View.VISIBLE);
         // Restore one-handed buttons if needed
         if (mKeyboardViewWrapper.getOneHandedModeEnabled()) {
             mKeyboardViewWrapper.findViewById(R.id.btn_stop_one_handed_mode).setVisibility(View.VISIBLE);
