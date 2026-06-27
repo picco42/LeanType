@@ -366,14 +366,14 @@ fun getUserAndInternalDictionaries(context: Context, locale: Locale): Pair<List<
     
     var userLocaleDir = DictionaryInfoUtils.getCacheDirectoryForLocale(locale, context)?.let { File(it) }
     var hasFiles = userLocaleDir?.exists() == true && userLocaleDir.isDirectory && userLocaleDir.listFiles()?.any {
-        it.name.endsWith(DictionaryInfoUtils.USER_DICTIONARY_SUFFIX) || it.name.startsWith(DictionaryInfoUtils.MAIN_DICT_PREFIX) || it.name == DictionaryInfoUtils.MAIN_DICT_FILE_NAME
+        it.name.endsWith(DictionaryInfoUtils.USER_DICTIONARY_SUFFIX) || it.name.startsWith(DictionaryInfoUtils.MAIN_DICT_PREFIX) || it.name.endsWith(".dict")
     } == true
 
     if (!hasFiles && (locale.country.isNotEmpty() || locale.variant.isNotEmpty())) {
         val fallbackLocale = Locale(locale.language)
         val fallbackDir = DictionaryInfoUtils.getCacheDirectoryForLocale(fallbackLocale, context)?.let { File(it) }
         val hasFallbackFiles = fallbackDir?.exists() == true && fallbackDir.isDirectory && fallbackDir.listFiles()?.any {
-            it.name.endsWith(DictionaryInfoUtils.USER_DICTIONARY_SUFFIX) || it.name.startsWith(DictionaryInfoUtils.MAIN_DICT_PREFIX) || it.name == DictionaryInfoUtils.MAIN_DICT_FILE_NAME
+            it.name.endsWith(DictionaryInfoUtils.USER_DICTIONARY_SUFFIX) || it.name.startsWith(DictionaryInfoUtils.MAIN_DICT_PREFIX) || it.name.endsWith(".dict")
         } == true
         if (hasFallbackFiles) {
             userLocaleDir = fallbackDir
@@ -382,10 +382,13 @@ fun getUserAndInternalDictionaries(context: Context, locale: Locale): Pair<List<
 
     if (userLocaleDir?.exists() == true && userLocaleDir.isDirectory) {
         userLocaleDir.listFiles()?.forEach {
-            if (it.name.endsWith(DictionaryInfoUtils.USER_DICTIONARY_SUFFIX))
+            if (it.name.endsWith(DictionaryInfoUtils.USER_DICTIONARY_SUFFIX)) {
                 userDicts.add(it)
-            else if (it.name.startsWith(DictionaryInfoUtils.MAIN_DICT_PREFIX))
+            } else if (it.name.startsWith(DictionaryInfoUtils.MAIN_DICT_PREFIX)) {
                 hasInternalDict = true
+            } else if (it.name.endsWith(".dict")) {
+                userDicts.add(it)
+            }
         }
     }
     val internalDicts = DictionaryInfoUtils.getAssetsDictionaryList(context)
@@ -396,12 +399,6 @@ fun getUserAndInternalDictionaries(context: Context, locale: Locale): Pair<List<
     }
     val hasAsset = best != null
     
-    // ponytail: if no built-in assets exist, main.dict in cache is a downloaded main dict.
-    if (!hasAsset && userLocaleDir?.exists() == true) {
-        val downloadedMain = File(userLocaleDir, DictionaryInfoUtils.MAIN_DICT_FILE_NAME)
-        if (downloadedMain.exists())
-            userDicts.add(downloadedMain)
-    }
     return userDicts to (hasInternalDict || hasAsset)
 }
 

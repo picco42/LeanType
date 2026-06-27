@@ -177,8 +177,11 @@ private fun DictionaryDetails(dict: File, onDelete: () -> Unit) {
     val type = header.mIdString.substringBefore(":")
     var showDeleteDialog by remember { mutableStateOf(false) }
     var showDetails by remember { mutableStateOf(false) }
-    val title = if (type != DictionaryInfoUtils.DEFAULT_MAIN_DICT) type
-        else stringResource(R.string.main_dictionary)
+    val title = when (type) {
+        DictionaryInfoUtils.DEFAULT_MAIN_DICT -> stringResource(R.string.main_dictionary)
+        Dictionary.TYPE_EMOJI -> stringResource(R.string.subtype_emoji)
+        else -> type
+    }
     val ctx = LocalContext.current
     val prefs = ctx.prefs()
     val prefKey = "pref_dict_enabled_${header.mIdString}"
