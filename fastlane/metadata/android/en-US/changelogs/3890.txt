@@ -1,9 +1,9 @@
-- Split standard build into FOSS-compliant "standard" (no ML Kit, F-Droid ready) and "standardfull" (includes ML Kit/Handwriting)
-- Add secure CI/CD release build signing workflow for reproducible builds
-- Re-add armeabi-v7a support to ABI filters
-- Fix suggestion word long-press to target entire word for deletion
-- Enable active next-word predictions on empty input in split mode
-- Make split mode fallback suggestions clickable and active
-- Fix popup keys pressed text/icon contrast-aware colors on amoled black theme
+- Implement Gboard-style Text Editing panel with cursor navigation, selection, and clipboard controls
+- Add dedicated Touchpad settings section with Full-screen mode and Close button overlay
+- Persist dismissed clipboard/screenshot suggestions state and reduce suggestions timeout to 1 minute
+- Support shortcut-specific prefixes for text expander and layout prefix above shortcut in add/edit dialog
+- Polish dictionary screen UI with Material 3 cards, colorful badges, and uniform icon sizes
+- Prevent dictionary download path collisions and support parent language locale fallback
+- Unify dictionary toggles under a single switch per language and filter out non-enabled regional variant cards
 - Support dynamic next-word bigram predictions via space-separated personal dictionary entries
-- Support shortcut-specific prefixes for text expander
+- Fix suggestion word long-press to target entire word for deletion and update theme colors
