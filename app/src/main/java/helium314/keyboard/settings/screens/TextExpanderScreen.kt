@@ -476,21 +476,21 @@ fun TextExpanderScreen(onClickBack: () -> Unit) {
                     focusRequester.requestFocus()
                 }
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    Row(
+                    Column(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         TextField(
                             value = editingPrefix,
                             onValueChange = { editingPrefix = it.replace(" ", "") },
-                            modifier = Modifier.weight(0.3f),
+                            modifier = Modifier.fillMaxWidth(),
                             singleLine = true,
                             label = { Text("Prefix (optional)") }
                         )
                         TextField(
                             value = editingShortcut,
                             onValueChange = { editingShortcut = if (editingIsRegex) it else it.replace(" ", "") },
-                            modifier = Modifier.weight(0.7f).focusRequester(focusRequester),
+                            modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
                             singleLine = true,
                             label = { Text(if (editingIsRegex) "Regex Pattern" else "Shortcut (e.g. 'brb')") }
                         )
