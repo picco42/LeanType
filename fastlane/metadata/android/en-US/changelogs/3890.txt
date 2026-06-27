@@ -1,9 +1,7 @@
-- Implement Gboard-style Text Editing panel with cursor navigation, selection, and clipboard controls
-- Add dedicated Touchpad settings section with Full-screen mode and Close button overlay
-- Persist dismissed clipboard/screenshot suggestions state and reduce suggestions timeout to 1 minute
-- Support shortcut-specific prefixes for text expander and layout prefix above shortcut in add/edit dialog
-- Polish dictionary screen UI with Material 3 cards, colorful badges, and uniform icon sizes
-- Prevent dictionary download path collisions and support parent language locale fallback
-- Unify dictionary toggles under a single switch per language and filter out non-enabled regional variant cards
-- Support dynamic next-word bigram predictions via space-separated personal dictionary entries
-- Fix suggestion word long-press to target entire word for deletion and update theme colors
+- Gboard-style Text Editing panel with cursor & selection controls
+- Dedicated Touchpad settings, Full-screen mode & Close button
+- Persistent clipboard/screenshot dismiss & 1-minute timeout
+- Text expander shortcut prefix fix & layout updates
+- Polished Dictionary settings UI with Material 3 cards
+- Prevent dictionary download path clashes & support fallback locales
+- Unified dictionary toggles & regional cards filtering
