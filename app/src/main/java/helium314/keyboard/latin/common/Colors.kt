@@ -323,6 +323,7 @@ class DynamicColors(context: Context, override val themeStyle: String, override 
 
     override fun setColor(view: ImageView, color: ColorType) {
         if (color == TOOL_BAR_KEY) {
+            view.clearColorFilter()
             setColor(view.drawable, color)
             return
         }
@@ -533,6 +534,7 @@ class DefaultColors (
 
     override fun setColor(view: ImageView, color: ColorType) {
         if (color == TOOL_BAR_KEY) {
+            view.clearColorFilter()
             setColor(view.drawable, color)
             return
         }
@@ -592,6 +594,7 @@ class AllColors(private val colorMap: EnumMap<ColorType, Int>, override val them
 
     override fun setColor(view: ImageView, color: ColorType) {
         if (color == TOOL_BAR_KEY) {
+            view.clearColorFilter()
             setColor(view.drawable, color)
             return
         }
