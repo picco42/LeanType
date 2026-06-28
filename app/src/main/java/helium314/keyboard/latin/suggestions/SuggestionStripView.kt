@@ -51,6 +51,7 @@ import helium314.keyboard.latin.utils.ToolbarKey
 import helium314.keyboard.latin.utils.ToolbarMode
 import helium314.keyboard.latin.utils.addPinnedKey
 import helium314.keyboard.latin.utils.createToolbarKey
+import helium314.keyboard.latin.utils.setToolbarButtonActivatedState
 import helium314.keyboard.latin.utils.isRepeatableToolbarKey
 import helium314.keyboard.latin.utils.RepeatableKeyTouchListener
 import helium314.keyboard.latin.utils.dpToPx
@@ -171,7 +172,7 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
         val toolbarHeight = min(toolbarExpandKey.layoutParams.height, resources.getDimension(R.dimen.config_suggestions_strip_height).toInt())
         toolbarExpandKey.layoutParams.height = toolbarHeight
         toolbarExpandKey.layoutParams.width = toolbarHeight // we want it square
-        colors.setBackground(toolbarExpandKey, ColorType.STRIP_BACKGROUND) // necessary because background is re-used for defaultToolbarBackground
+        toolbarExpandKey.setBackgroundResource(R.drawable.toolbar_key_background)
         colors.setColor(toolbarExpandKey, ColorType.TOOL_BAR_EXPAND_KEY)
         colors.setColor(toolbarExpandKey.background, ColorType.TOOL_BAR_EXPAND_KEY_BACKGROUND)
 
@@ -608,28 +609,15 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
     private fun onLongClickToolbarKey(view: View) {
         val tag = view.tag as? ToolbarKey ?: return
 
-        // Special handling for TRANSLATE key - always allow language selector
-        if (tag === ToolbarKey.TRANSLATE) {
-            val longClickCode = getCodeForToolbarKeyLongClick(tag)
-            if (longClickCode != KeyCode.UNSPECIFIED) {
-                listener.onCodeInput(longClickCode, Constants.SUGGESTION_STRIP_COORDINATE, Constants.SUGGESTION_STRIP_COORDINATE, false)
-            }
-            return
-        }
-
-        // Disable pinning when split toolbar is enabled
-        if (Settings.getValues().mSplitToolbar || !Settings.getValues().mQuickPinToolbarKeys) {
-            // Quick Pin disabled or Split Toolbar enabled: Perform standard long-press action
-            val longClickCode = getCodeForToolbarKeyLongClick(tag)
-            if (longClickCode != KeyCode.UNSPECIFIED) {
-                listener.onCodeInput(longClickCode, Constants.SUGGESTION_STRIP_COORDINATE, Constants.SUGGESTION_STRIP_COORDINATE, false)
-            }
-        } else {
+        val longClickCode = getCodeForToolbarKeyLongClick(tag)
+        if (longClickCode != KeyCode.UNSPECIFIED) {
+            // Always perform long-press shortcut if one exists
+            listener.onCodeInput(longClickCode, Constants.SUGGESTION_STRIP_COORDINATE, Constants.SUGGESTION_STRIP_COORDINATE, false)
+        } else if (Settings.getValues().mQuickPinToolbarKeys && !Settings.getValues().mSplitToolbar) {
+            // If no shortcut exists, and quick pin is enabled, perform pinning/unpinning
             if (view.parent === toolbar) {
-                // Pin: Move from toolbar to pinned keys
                 addPinnedKey(context.prefs(), tag)
             } else if (view.parent === pinnedKeys) {
-                // Unpin: Move from pinned keys back to toolbar
                 removePinnedKey(context.prefs(), tag)
             }
         }
@@ -806,6 +794,11 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
 
         // Setup close button
         translateLanguageCloseButton.isVisible = true
+        translateLanguageCloseButton.setBackgroundResource(R.drawable.toolbar_key_background)
+        translateLanguageCloseButton.setImageDrawable(KeyboardIconsSet.instance.getNewDrawable(ToolbarKey.CLOSE_HISTORY.name, context))
+        val colors = Settings.getValues().mColors
+        colors.setColor(translateLanguageCloseButton, ColorType.TOOL_BAR_EXPAND_KEY)
+        colors.setColor(translateLanguageCloseButton.background, ColorType.TOOL_BAR_EXPAND_KEY_BACKGROUND)
         translateLanguageCloseButton.setOnClickListener {
             hideTranslateLanguageSelector()
         }
@@ -921,10 +914,7 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
             view.setOnClickListener(this)
             view.setOnLongClickListener(this)
         }
-        colors.setColor(view, ColorType.TOOL_BAR_KEY)
-        // Set circular background for toolbar keys
-        view.setBackgroundResource(R.drawable.toolbar_key_background)
-        colors.setColor(view.background, ColorType.TOOL_BAR_EXPAND_KEY_BACKGROUND)
+        setToolbarButtonActivatedState(view)
     }
 
     private fun rebuildToolbarKeys() {

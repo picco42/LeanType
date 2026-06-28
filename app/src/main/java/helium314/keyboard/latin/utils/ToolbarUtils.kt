@@ -18,6 +18,7 @@ import helium314.keyboard.keyboard.internal.keyboard_parser.floris.KeyCode
 import helium314.keyboard.latin.BuildConfig
 import helium314.keyboard.latin.R
 import helium314.keyboard.latin.common.Constants.Separators
+import helium314.keyboard.latin.common.ColorType
 import helium314.keyboard.latin.settings.Defaults
 import helium314.keyboard.latin.settings.Settings
 import helium314.keyboard.latin.utils.ToolbarKey.*
@@ -32,6 +33,8 @@ import java.util.EnumMap
 import java.util.Locale
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.Rect
+import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
@@ -60,6 +63,7 @@ fun createToolbarKey(context: Context, key: ToolbarKey): ImageButton {
     button.setPadding(padding, padding, padding, padding)
     button.tag = key
     button.contentDescription = key.name.lowercase().getStringResourceOrName("", context)
+    button.setBackgroundResource(R.drawable.toolbar_key_background)
     setToolbarButtonActivatedState(button)
     
     val index = if (key.name.startsWith("CUSTOM_AI_")) {
@@ -71,11 +75,18 @@ fun createToolbarKey(context: Context, key: ToolbarKey): ImageButton {
         context.prefs().getString("pref_custom_ai_tag_$index", "") ?: ""
     } else ""
     
-    if (showTags && tag.isNotBlank()) {
-        button.setImageDrawable(TagDrawable(tag.take(3).uppercase(Locale.US)))
+    val rawDrawable = if (showTags && tag.isNotBlank()) {
+        TagDrawable(tag.take(3).uppercase(Locale.US))
     } else {
-        button.setImageDrawable(KeyboardIconsSet.instance.getNewDrawable(key.name, context))
+        KeyboardIconsSet.instance.getNewDrawable(key.name, context)
     }
+
+    val finalDrawable = if (rawDrawable != null && getCodeForToolbarKeyLongClick(key) != KeyCode.UNSPECIFIED) {
+        LongPressHintDrawable(rawDrawable)
+    } else {
+        rawDrawable
+    }
+    button.setImageDrawable(finalDrawable)
     return button
 }
 
@@ -177,13 +188,22 @@ fun setToolbarButtonsActivatedStateOnPrefChange(buttonsGroup: ViewGroup, key: St
     }
 }
 
-private fun setToolbarButtonActivatedState(button: ImageButton) {
-    button.isActivated = when (button.tag) {
+fun setToolbarButtonActivatedState(button: ImageButton) {
+    val activated = when (button.tag) {
         INCOGNITO -> button.context.prefs().getBoolean(Settings.PREF_ALWAYS_INCOGNITO_MODE, Defaults.PREF_ALWAYS_INCOGNITO_MODE)
         ONE_HANDED -> Settings.getValues().mOneHandedModeEnabled
         SPLIT -> Settings.getValues().mIsSplitKeyboardEnabled
         AUTOCORRECT -> Settings.getValues().mAutoCorrectionEnabledPerUserSettings
         else -> true
+    }
+    button.isActivated = activated
+    val colors = Settings.getValues().mColors
+    if (activated && button.tag in listOf(INCOGNITO, ONE_HANDED, SPLIT, AUTOCORRECT)) {
+        colors.setColor(button.background, ColorType.TOOL_BAR_KEY_ENABLED_BACKGROUND)
+        colors.setColor(button, ColorType.ACTION_KEY_ICON)
+    } else {
+        colors.setColor(button.background, ColorType.TOOL_BAR_EXPAND_KEY_BACKGROUND)
+        colors.setColor(button, ColorType.TOOL_BAR_KEY)
     }
 }
 
@@ -479,5 +499,54 @@ class RepeatableKeyTouchListener(
             }
         }
         return false
+    }
+}
+
+class LongPressHintDrawable(private val base: Drawable) : Drawable() {
+    private val hintPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.FILL
+        color = Color.WHITE
+    }
+    private val path = Path()
+
+    init {
+        bounds = base.bounds
+    }
+
+    override fun draw(canvas: Canvas) {
+        base.draw(canvas)
+        val bounds = bounds
+        val size = bounds.height() * 0.15f
+        path.reset()
+        path.moveTo(bounds.right.toFloat(), bounds.bottom - size)
+        path.lineTo(bounds.right.toFloat(), bounds.bottom.toFloat())
+        path.lineTo(bounds.right - size, bounds.bottom.toFloat())
+        path.close()
+        canvas.drawPath(path, hintPaint)
+    }
+
+    override fun onBoundsChange(bounds: Rect) {
+        base.bounds = bounds
+        super.onBoundsChange(bounds)
+    }
+
+    override fun setAlpha(alpha: Int) {
+        base.alpha = alpha
+        hintPaint.alpha = (alpha * 0.5f).toInt()
+    }
+
+    override fun setColorFilter(colorFilter: ColorFilter?) {
+        base.colorFilter = colorFilter
+        hintPaint.colorFilter = colorFilter
+    }
+
+    @Deprecated("Deprecated in Java", ReplaceWith("PixelFormat.UNKNOWN", "android.graphics.PixelFormat"))
+    @Suppress("DEPRECATION")
+    override fun getOpacity(): Int = base.opacity
+
+    override fun isStateful(): Boolean = base.isStateful
+
+    override fun onStateChange(state: IntArray): Boolean {
+        return base.setState(state)
     }
 }
