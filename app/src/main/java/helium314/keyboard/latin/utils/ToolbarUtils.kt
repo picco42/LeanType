@@ -553,4 +553,9 @@ class LongPressHintDrawable(private val base: Drawable) : Drawable() {
     override fun onStateChange(state: IntArray): Boolean {
         return base.setState(state)
     }
+
+    override fun getIntrinsicWidth(): Int = base.intrinsicWidth
+    override fun getIntrinsicHeight(): Int = base.intrinsicHeight
+    override fun getMinimumWidth(): Int = base.minimumWidth
+    override fun getMinimumHeight(): Int = base.minimumHeight
 }
