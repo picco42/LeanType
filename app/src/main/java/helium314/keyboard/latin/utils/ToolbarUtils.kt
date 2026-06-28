@@ -511,7 +511,6 @@ class LongPressHintDrawable(private val base: Drawable) : Drawable() {
         style = Paint.Style.FILL
         color = Color.WHITE
     }
-    private val path = Path()
 
     init {
         bounds = base.bounds
@@ -520,13 +519,10 @@ class LongPressHintDrawable(private val base: Drawable) : Drawable() {
     override fun draw(canvas: Canvas) {
         base.draw(canvas)
         val bounds = bounds
-        val size = bounds.height() * 0.15f
-        path.reset()
-        path.moveTo(bounds.right.toFloat(), bounds.bottom - size)
-        path.lineTo(bounds.right.toFloat(), bounds.bottom.toFloat())
-        path.lineTo(bounds.right - size, bounds.bottom.toFloat())
-        path.close()
-        canvas.drawPath(path, hintPaint)
+        val radius = bounds.height() * 0.05f
+        val cx = bounds.right.toFloat() - radius * 3f
+        val cy = bounds.bottom.toFloat() - radius * 3f
+        canvas.drawCircle(cx, cy, radius, hintPaint)
     }
 
     override fun onBoundsChange(bounds: Rect) {
