@@ -645,12 +645,18 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
         return true;
     }
 
+    public void dismissAllKeyPreviews() {
+        mKeyPreviewChoreographer.clear();
+        mDrawingPreviewPlacerView.removeAllViews();
+    }
+
     public void cancelAllOngoingEvents() {
         mTimerHandler.cancelAllMessages();
         PointerTracker.setReleasedKeyGraphicsToAllKeys();
         mGestureFloatingTextDrawingPreview.dismissGestureFloatingPreviewText();
         mSlidingKeyInputDrawingPreview.dismissSlidingKeyInputPreview();
         PointerTracker.dismissAllPopupKeysPanels();
+        dismissAllKeyPreviews();
         PointerTracker.cancelAllPointerTrackers();
     }
 
