@@ -83,41 +83,11 @@ fun SponsorDialog(
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                // Gradient Header
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(140.dp)
-                        .background(
-                            Brush.linearGradient(
-                                colors = listOf(
-                                    Color(0xFF7C4DFF), // LeanBitLab Purple
-                                    Color(0xFFFE8E86)  // Sponsor Warm Pink/Rose
-                                )
-                            )
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    // White glow/background for heart
-                    Box(
-                        modifier = Modifier
-                            .size(84.dp)
-                            .clip(CircleShape)
-                            .background(Color.White.copy(alpha = 0.2f)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            "❤️",
-                            style = MaterialTheme.typography.displayMedium
-                        )
-                    }
-                }
-
                 // Content
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 24.dp, vertical = 20.dp),
+                        .padding(horizontal = 24.dp, vertical = 24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
