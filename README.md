@@ -18,6 +18,7 @@
 - **[🛡️ Offline AI (GGUF)](docs/FEATURES.md#5-offline-proofreading-privacy-focused)** - Private, on-device proofreading and translation using local **GGUF models** powered by `llama.cpp` (Offline build only).
 - **🌐 AI Translation** - Translate selected text directly using your chosen AI provider, with a separate model selector.
 - **[🧠 Custom AI Keys](docs/FEATURES.md#4-custom-ai-keys--keywords)** - Assign custom prompts, personas (#editor, #proofread), and custom text labels/tags (showing as themed capsules) to 10 customizable toolbar keys.
+- **🧭 Text Editing Mode** - Gboard-style dedicated editing panel with precise DPAD navigation, custom selection mode (Shift + arrows), clipboard actions, and editing utilities.
 - **[✍️ Handwriting Input](docs/FEATURES.md#8-handwriting-input)** - Draw characters directly on a handwriting recognition canvas (Standard version, requires [Leantype-Handwriting-Plugin](https://github.com/LeanBitLab/Leantype-Handwriting-Plugin)).
 - **🖱️ Touchpad Mode** - Swipe spacebar up to toggle touchpad with custom sensitivity controls, including full-screen laptop-style touchpad mode.
 - **📝 Text Expander** - Built-in expansion tool supporting custom shortcuts and dynamic template variables (date, time, clipboard, custom placeholders).
