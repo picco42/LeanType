@@ -394,28 +394,50 @@ public class KeyboardView extends View {
         
         final boolean isSelected = (key.getCode() == KeyCode.SHIFT && key.isLocked())
                 || (key.getCode() == KeyCode.TOGGLE_SELECTION_MODE && KeyboardActionListenerImpl.sPersistentSelectionModeActive);
-        boolean hasFilter = false;
+        
+        boolean hasCustomTint = false;
+        if (key.getCode() == KeyCode.ALPHA) {
+            final int accent = mColors.get(ColorType.ACTION_KEY_BACKGROUND);
+            final int funcBg = mColors.get(ColorType.FUNCTIONAL_KEY_BACKGROUND);
+            final int blended = blend(accent, funcBg, 0.15f);
+            androidx.core.graphics.drawable.DrawableCompat.setTint(background, blended);
+            hasCustomTint = true;
+        } else if (key.getCode() == KeyCode.TOGGLE_SELECTION_MODE) {
+            final int accent = mColors.get(ColorType.ACTION_KEY_BACKGROUND);
+            final int funcBg = mColors.get(ColorType.FUNCTIONAL_KEY_BACKGROUND);
+            final int blended = blend(accent, funcBg, 0.25f);
+            androidx.core.graphics.drawable.DrawableCompat.setTint(background, blended);
+            hasCustomTint = true;
+        } else if (key.getCode() == KeyCode.DELETE) {
+            final int accent = mColors.get(ColorType.ACTION_KEY_BACKGROUND);
+            final int funcBg = mColors.get(ColorType.FUNCTIONAL_KEY_BACKGROUND);
+            final int blended = blend(accent, funcBg, 0.35f);
+            androidx.core.graphics.drawable.DrawableCompat.setTint(background, blended);
+            hasCustomTint = true;
+        }
+        
         if (isSelected) {
             background.setColorFilter(Color.argb(0x80, 0, 0, 0), PorterDuff.Mode.SRC_ATOP);
-            hasFilter = true;
-        } else if (key.getCode() == KeyCode.ALPHA) {
-            background.setColorFilter(Color.argb(0x1C, 0, 0, 0), PorterDuff.Mode.SRC_ATOP);
-            hasFilter = true;
-        } else if (key.getCode() == KeyCode.TOGGLE_SELECTION_MODE) {
-            background.setColorFilter(Color.argb(0x28, 0, 0, 0), PorterDuff.Mode.SRC_ATOP);
-            hasFilter = true;
-        } else if (key.getCode() == KeyCode.DELETE) {
-            background.setColorFilter(Color.argb(0x38, 0, 0, 0), PorterDuff.Mode.SRC_ATOP);
-            hasFilter = true;
         }
         
         background.draw(canvas);
         
-        if (hasFilter) {
+        if (isSelected) {
             background.clearColorFilter();
+        }
+        if (hasCustomTint) {
+            mColors.setColor(background, ColorType.FUNCTIONAL_KEY_BACKGROUND);
         }
         
         canvas.translate(-bgX, -bgY);
+    }
+
+    private static int blend(int c1, int c2, float ratio) {
+        float inverseRatio = 1f - ratio;
+        float r = Color.red(c1) * ratio + Color.red(c2) * inverseRatio;
+        float g = Color.green(c1) * ratio + Color.green(c2) * inverseRatio;
+        float b = Color.blue(c1) * ratio + Color.blue(c2) * inverseRatio;
+        return Color.rgb((int) r, (int) g, (int) b);
     }
 
     // Draw key top visuals.
