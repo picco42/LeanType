@@ -297,11 +297,11 @@ class DynamicColors(context: Context, override val themeStyle: String, override 
         NAVIGATION_BAR -> navBar
         MORE_SUGGESTIONS_HINT, SUGGESTED_WORD, SUGGESTION_TYPED_WORD, SUGGESTION_VALID_WORD -> adjustedKeyText
         ACTION_KEY_ICON, TOOL_BAR_EXPAND_KEY -> Color.WHITE
-        EDIT_MODE_DELETE_BACKGROUND -> 0xFFC2A98F.toInt()
-        EDIT_MODE_FUNC_BACKGROUND -> 0xFF9BB0C1.toInt()
-        EDIT_MODE_ALPHA_BACKGROUND -> 0xFFBFA29E.toInt()
-        EDIT_MODE_NAV_BACKGROUND -> 0xFF3D3D3D.toInt()
-        EDIT_MODE_JUMP_BACKGROUND -> 0xFFA3B7A8.toInt()
+        EDIT_MODE_DELETE_BACKGROUND -> androidx.core.graphics.ColorUtils.blendARGB(accent, functionalKey, 0.4f)
+        EDIT_MODE_FUNC_BACKGROUND -> androidx.core.graphics.ColorUtils.blendARGB(accent, functionalKey, 0.2f)
+        EDIT_MODE_ALPHA_BACKGROUND -> androidx.core.graphics.ColorUtils.blendARGB(accent, functionalKey, 0.6f)
+        EDIT_MODE_NAV_BACKGROUND -> androidx.core.graphics.ColorUtils.blendARGB(keyBackground, functionalKey, 0.3f)
+        EDIT_MODE_JUMP_BACKGROUND -> androidx.core.graphics.ColorUtils.blendARGB(keyBackground, functionalKey, 0.7f)
     }
 
     override fun setColor(drawable: Drawable, color: ColorType) {
@@ -513,11 +513,11 @@ class DefaultColors (
         SUGGESTION_AUTO_CORRECT, EMOJI_CATEGORY, TOOL_BAR_KEY, TOOL_BAR_EXPAND_KEY, ONE_HANDED_MODE_BUTTON -> suggestionText
         MORE_SUGGESTIONS_HINT, SUGGESTED_WORD, SUGGESTION_TYPED_WORD, SUGGESTION_VALID_WORD -> adjustedSuggestionText
         ACTION_KEY_ICON -> Color.WHITE
-        EDIT_MODE_DELETE_BACKGROUND -> 0xFFC2A98F.toInt()
-        EDIT_MODE_FUNC_BACKGROUND -> 0xFF9BB0C1.toInt()
-        EDIT_MODE_ALPHA_BACKGROUND -> 0xFFBFA29E.toInt()
-        EDIT_MODE_NAV_BACKGROUND -> 0xFF3D3D3D.toInt()
-        EDIT_MODE_JUMP_BACKGROUND -> 0xFFA3B7A8.toInt()
+        EDIT_MODE_DELETE_BACKGROUND -> androidx.core.graphics.ColorUtils.blendARGB(accent, functionalKey, 0.4f)
+        EDIT_MODE_FUNC_BACKGROUND -> androidx.core.graphics.ColorUtils.blendARGB(accent, functionalKey, 0.2f)
+        EDIT_MODE_ALPHA_BACKGROUND -> androidx.core.graphics.ColorUtils.blendARGB(accent, functionalKey, 0.6f)
+        EDIT_MODE_NAV_BACKGROUND -> androidx.core.graphics.ColorUtils.blendARGB(keyBackground, functionalKey, 0.3f)
+        EDIT_MODE_JUMP_BACKGROUND -> androidx.core.graphics.ColorUtils.blendARGB(keyBackground, functionalKey, 0.7f)
     }
 
     override fun setColor(drawable: Drawable, color: ColorType) {
