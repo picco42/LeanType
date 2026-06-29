@@ -132,6 +132,11 @@ class KeyboardActionListenerImpl(private val latinIME: LatinIME, private val inp
                 }
                 return
             }
+            KeyCode.ALPHA -> {
+                sPersistentTextEditModeActive = false
+                sPersistentSelectionModeActive = false
+                keyboardSwitcher.hideTextEditView()
+            }
             KeyCode.HANDWRITING -> {
                 if (keyboardSwitcher.isHandwritingShowing) {
                     keyboardSwitcher.setAlphabetKeyboard()
