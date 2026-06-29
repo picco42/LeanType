@@ -190,17 +190,21 @@ class KeyboardActionListenerImpl(private val latinIME: LatinIME, private val inp
         }
         val mkv = keyboardSwitcher.mainKeyboardView
 
+        val isEditingNav = primaryCode == KeyCode.WORD_LEFT || primaryCode == KeyCode.WORD_RIGHT
+                || primaryCode == KeyCode.MOVE_START_OF_PAGE || primaryCode == KeyCode.MOVE_END_OF_PAGE
+                || primaryCode == KeyCode.MOVE_START_OF_LINE || primaryCode == KeyCode.MOVE_END_OF_LINE
+                || primaryCode == KeyCode.PAGE_UP || primaryCode == KeyCode.PAGE_DOWN
+        val eventMetaState = if (isEditingNav && (keyboardSwitcher.keyboard?.mId?.isAlphabetShifted == true || sPersistentSelectionModeActive)) {
+            metaState or KeyEvent.META_SHIFT_ON
+        } else {
+            metaState
+        }
+
         // checking if the character is a combining accent
         val event = if (primaryCode in combiningRange) { // todo: should this be done later, maybe in inputLogic?
-            Event.createSoftwareDeadEvent(primaryCode, 0, metaState, mkv.getKeyX(x), mkv.getKeyY(y), null)
+            Event.createSoftwareDeadEvent(primaryCode, 0, eventMetaState, mkv.getKeyX(x), mkv.getKeyY(y), null)
         } else {
-            // todo:
-            //  setting meta shift should only be done for arrow and similar cursor movement keys
-            //  should only be enabled once it works more reliably (currently depends on app for some reason)
-//            if (mkv.keyboard?.mId?.isAlphabetShiftedManually == true)
-//                Event.createSoftwareKeypressEvent(primaryCode, metaState or KeyEvent.META_SHIFT_ON, mkv.getKeyX(x), mkv.getKeyY(y), isKeyRepeat)
-//            else Event.createSoftwareKeypressEvent(primaryCode, metaState, mkv.getKeyX(x), mkv.getKeyY(y), isKeyRepeat)
-            Event.createSoftwareKeypressEvent(primaryCode, metaState, mkv.getKeyX(x), mkv.getKeyY(y), isKeyRepeat)
+            Event.createSoftwareKeypressEvent(primaryCode, eventMetaState, mkv.getKeyX(x), mkv.getKeyY(y), isKeyRepeat)
         }
         latinIME.onEvent(event)
         metaAfterCodeInput(primaryCode)
