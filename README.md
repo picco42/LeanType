@@ -53,16 +53,14 @@
         <img alt="Get it on Obtainium" src="docs/images/get-it-on-obtainium.png" height="60">
       </a>
     </td>
-  </tr>
-</table>
-
-<!--
+    <!-- ponytail: add fdroid button back -->
     <td align="center" valign="middle">
       <a href="https://f-droid.org/en/packages/com.leanbitlab.leantype/index.html">
         <img alt="Get it on F-Droid" src="docs/images/get-it-on-fdroid.png" height="90">
       </a>
     </td>
--->
+  </tr>
+</table>
 
 > **⚠️ Note:** F-Droid releases might be delayed or stuck again due to reproducibility verification issues. For the latest version, use GitHub Releases or Obtainium.
 
