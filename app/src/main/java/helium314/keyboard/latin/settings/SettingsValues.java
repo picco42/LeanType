@@ -163,6 +163,8 @@ public class SettingsValues {
         public final float mAutoCorrectionThreshold;
         public final boolean mAutoCorrectShortcuts;
         public final boolean mPersistFloatingKeyboard;
+        // ponytail: persist text edit mode field
+        public final boolean mPersistTextEditMode;
         public final boolean mBackspaceRevertsAutocorrect;
         public final int mScoreLimitForAutocorrect;
         private final boolean mSuggestionsEnabledPerUserSettings;
@@ -262,6 +264,9 @@ public class SettingsValues {
                                 Defaults.PREF_AUTOCORRECT_SHORTCUTS);
                 mPersistFloatingKeyboard = prefs.getBoolean(Settings.PREF_PERSIST_FLOATING_KEYBOARD,
                                 Defaults.PREF_PERSIST_FLOATING_KEYBOARD);
+                // ponytail: load persist text edit mode value
+                mPersistTextEditMode = prefs.getBoolean(Settings.PREF_PERSIST_TEXT_EDIT_MODE,
+                                Defaults.PREF_PERSIST_TEXT_EDIT_MODE);
                 mBackspaceRevertsAutocorrect = prefs.getBoolean(Settings.PREF_BACKSPACE_REVERTS_AUTOCORRECT,
                                 Defaults.PREF_BACKSPACE_REVERTS_AUTOCORRECT);
                 mBigramPredictionEnabled = prefs.getBoolean(Settings.PREF_BIGRAM_PREDICTIONS,

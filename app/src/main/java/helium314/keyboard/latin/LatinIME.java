@@ -865,6 +865,15 @@ public class LatinIME extends InputMethodService implements
                 mFloatingKeyboardManager.hide(false);
             }
         }
+        // ponytail: reset text edit mode when input finishes if persist is false
+        if (KeyboardActionListenerImpl.sPersistentTextEditModeActive) {
+            if (!Settings.getInstance().getCurrent().mPersistTextEditMode) {
+                KeyboardActionListenerImpl.sPersistentTextEditModeActive = false;
+                if (mKeyboardSwitcher != null) {
+                    mKeyboardSwitcher.hideTextEditView();
+                }
+            }
+        }
     }
 
     @Override
