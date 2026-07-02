@@ -109,6 +109,7 @@ public class SettingsValues {
                                                       // yet
         public final boolean mSuggestPunctuation;
         public final boolean mCenterSuggestionTextToEnter;
+        public final String mGestureMethod;
         public final boolean mGestureInputEnabled;
         public final boolean mGestureTrailEnabled;
         public final boolean mGestureFloatingPreviewTextEnabled;
@@ -308,8 +309,11 @@ public class SettingsValues {
                                 Defaults.PREF_KEYPRESS_SOUND_VOLUME);
                 mEnableEmojiAltPhysicalKey = prefs.getBoolean(Settings.PREF_ENABLE_EMOJI_ALT_PHYSICAL_KEY,
                                 Defaults.PREF_ENABLE_EMOJI_ALT_PHYSICAL_KEY);
+                mGestureMethod = prefs.getString(Settings.PREF_GESTURE_METHOD,
+                                JniUtils.sHaveNativeGestureLib ? "native" : "fallback");
                 mGestureInputEnabled = JniUtils.sHaveGestureLib
-                                && prefs.getBoolean(Settings.PREF_GESTURE_INPUT, Defaults.PREF_GESTURE_INPUT);
+                                && prefs.getBoolean(Settings.PREF_GESTURE_INPUT, Defaults.PREF_GESTURE_INPUT)
+                                && (!"native".equals(mGestureMethod) || JniUtils.sHaveNativeGestureLib);
                 mGestureTrailEnabled = prefs.getBoolean(Settings.PREF_GESTURE_PREVIEW_TRAIL,
                                 Defaults.PREF_GESTURE_PREVIEW_TRAIL);
                 mGestureFloatingPreviewTextEnabled = !mInputAttributes.mDisableGestureFloatingPreviewText
@@ -397,7 +401,8 @@ public class SettingsValues {
                 mNarrowKeyGapsLevel = prefs.getInt(Settings.PREF_NARROW_KEY_GAPS_LEVEL, Defaults.PREF_NARROW_KEY_GAPS_LEVEL);
                 mSettingsValuesForSuggestion = new SettingsValuesForSuggestion(
                                 mBlockPotentiallyOffensive,
-                                prefs.getBoolean(Settings.PREF_GESTURE_SPACE_AWARE, Defaults.PREF_GESTURE_SPACE_AWARE));
+                                prefs.getBoolean(Settings.PREF_GESTURE_SPACE_AWARE, Defaults.PREF_GESTURE_SPACE_AWARE),
+                                mGestureMethod);
                 mSpacingAndPunctuations = new SpacingAndPunctuations(res, mUrlDetectionEnabled);
                 mBottomPaddingScale = Settings.readBottomPaddingScale(prefs, isLandscape);
                 mSidePaddingScale = Settings.readSidePaddingScale(prefs, isLandscape, mIsSplitKeyboardEnabled);

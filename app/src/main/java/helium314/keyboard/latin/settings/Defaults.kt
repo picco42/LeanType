@@ -119,6 +119,8 @@ object Defaults {
     const val PREF_COMPRESS_SCREENSHOTS = true
     const val PREF_AUTO_READ_OTP = false
     const val PREF_GESTURE_INPUT = true
+    // ponytail: gesture method default value
+    const val PREF_GESTURE_METHOD = "fallback"
     const val PREF_VIBRATION_DURATION_SETTINGS = -1
     const val PREF_VIBRATION_AMPLITUDE_SETTINGS = -1
     const val PREF_KEYPRESS_SOUND_VOLUME = -0.01f

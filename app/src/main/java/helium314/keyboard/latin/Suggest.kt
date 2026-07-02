@@ -24,6 +24,7 @@ import helium314.keyboard.latin.settings.SettingsValuesForSuggestion
 import helium314.keyboard.latin.suggestions.SuggestionStripView
 import helium314.keyboard.latin.utils.AutoCorrectionUtils
 import helium314.keyboard.latin.utils.Log
+import helium314.keyboard.latin.utils.JniUtils
 import helium314.keyboard.latin.utils.SuggestionResults
 import java.util.Locale
 import kotlin.math.min
@@ -338,30 +339,33 @@ class Suggest(private val mDictionaryFacilitator: DictionaryFacilitator) {
         inputStyle: Int, sequenceNumber: Int
     ): SuggestedWords {
         val pointers = wordComposer.composedDataSnapshot.mInputPointers
-        // Build the precomputed gesture index lazily (once per keyboard layout).
-        // Keyed by a fingerprint of key positions so it survives text-field focus and shift-state
-        // changes, but is rebuilt when the user switches languages or physical layout.
-        // The build iterates the binary dict via JNI and runs on InputLogicHandler's background thread.
-        val fingerprint = SwipeGestureEngine.layoutFingerprint(keyboard)
-        var index = gestureIndex
-        if (index == null || index.byFirst.isEmpty() || gestureIndexFingerprint != fingerprint) {
-            val words = mDictionaryFacilitator.getAllMainDictionaryWordsWithFrequency()
-            index = SwipeGestureEngine.buildIndex(words, keyboard)
-            if (index.byFirst.isNotEmpty()) {
-                gestureIndex = index
-                gestureIndexFingerprint = fingerprint
+        val useFallback = "fallback" == settingsValuesForSuggestion.mGestureMethod || !JniUtils.sHaveNativeGestureLib
+        val suggestionResults = if (useFallback) {
+            val fingerprint = SwipeGestureEngine.layoutFingerprint(keyboard)
+            var index = gestureIndex
+            if (index == null || index.byFirst.isEmpty() || gestureIndexFingerprint != fingerprint) {
+                val words = mDictionaryFacilitator.getAllMainDictionaryWordsWithFrequency()
+                index = SwipeGestureEngine.buildIndex(words, keyboard)
+                if (index.byFirst.isNotEmpty()) {
+                    gestureIndex = index
+                    gestureIndexFingerprint = fingerprint
+                }
             }
-        }
-        // ponytail: query bigram predictions in background to boost matching context score
-        val predictionSet = if (ngramContext.isValid) {
-            mDictionaryFacilitator.getSuggestionResults(
-                ComposedData(InputPointers(32), false, ""), ngramContext, keyboard,
-                settingsValuesForSuggestion, SESSION_ID_GESTURE, inputStyle
-            ).map { it.mWord.lowercase(Locale.ROOT) }.toSet()
+            val predictionSet = if (ngramContext.isValid) {
+                mDictionaryFacilitator.getSuggestionResults(
+                    ComposedData(InputPointers(32), false, ""), ngramContext, keyboard,
+                    settingsValuesForSuggestion, SESSION_ID_GESTURE, inputStyle
+                ).map { it.mWord.lowercase(Locale.ROOT) }.toSet()
+            } else {
+                emptySet()
+            }
+            SwipeGestureEngine.rankByIndex(index, pointers, keyboard, SuggestedWords.MAX_SUGGESTIONS, predictionSet)
         } else {
-            emptySet()
+            mDictionaryFacilitator.getSuggestionResults(
+                wordComposer.composedDataSnapshot, ngramContext, keyboard,
+                settingsValuesForSuggestion, SESSION_ID_GESTURE, inputStyle
+            )
         }
-        val suggestionResults = SwipeGestureEngine.rankByIndex(index, pointers, keyboard, SuggestedWords.MAX_SUGGESTIONS, predictionSet)
         replaceSingleLetterFirstSuggestion(suggestionResults)
 
         // For transforming words that don't come from a dictionary, because it's our best bet

@@ -40,6 +40,7 @@ public final class JniUtils {
     }
 
     public static boolean sHaveGestureLib = false;
+    public static boolean sHaveNativeGestureLib = false;
     static {
         // hardcoded default path, may not work on all phones
         @SuppressLint("SdCardPath") String filesDir = "/data/data/" + BuildConfig.APPLICATION_ID + "/files";
@@ -96,10 +97,12 @@ public final class JniUtils {
             // try loading built-in library
             try {
                 System.loadLibrary(JNI_LIB_NAME);
+                sHaveGestureLib = true;
             } catch (UnsatisfiedLinkError ul) {
                 Log.w(TAG, "Could not load native library " + JNI_LIB_NAME, ul);
             }
         }
+        sHaveNativeGestureLib = sHaveGestureLib;
         // We have a Java-side gesture engine (SwipeGestureEngine) that doesn't need the native lib.
         sHaveGestureLib = true;
     }

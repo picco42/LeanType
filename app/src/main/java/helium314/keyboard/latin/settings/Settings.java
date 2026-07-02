@@ -118,6 +118,8 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     public static final String PREF_SUGGEST_PUNCTUATION = "suggest_punctuation";
     public static final String PREF_SUGGEST_CLIPBOARD_CONTENT = "suggest_clipboard_content";
     public static final String PREF_GESTURE_INPUT = "gesture_input";
+    // ponytail: gesture method preference key
+    public static final String PREF_GESTURE_METHOD = "gesture_method";
     public static final String PREF_VIBRATION_DURATION_SETTINGS = "vibration_duration_settings";
     public static final String PREF_VIBRATION_AMPLITUDE_SETTINGS = "vibration_amplitude_settings";
     public static final String PREF_KEYPRESS_SOUND_VOLUME = "keypress_sound_volume";
