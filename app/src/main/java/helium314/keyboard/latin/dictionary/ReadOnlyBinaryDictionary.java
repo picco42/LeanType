@@ -131,13 +131,13 @@ public final class ReadOnlyBinaryDictionary extends Dictionary {
                 if (!mBinaryDictionary.isValidDictionary()) {
                     break;
                 }
-                BinaryDictionary.GetNextWordPropertyResult result =
-                        mBinaryDictionary.getNextWordProperty(token);
-                if (result.mWordProperty == null) break;
-                if (!result.mWordProperty.mIsNotAWord && !result.mWordProperty.mIsPossiblyOffensive) {
-                    String word = result.mWordProperty.mWord;
-                    if (word != null && !word.isEmpty())
-                        words.put(word, result.mWordProperty.mProbabilityInfo.mProbability);
+                BinaryDictionary.GetNextWordAndFrequencyResult result =
+                        mBinaryDictionary.getNextWordAndFrequency(token);
+                if (result.mWordAndFrequency == null) break;
+                String word = result.mWordAndFrequency.mWord;
+                int freq = result.mWordAndFrequency.mFrequency;
+                if (word != null && !word.isEmpty() && freq >= 0) {
+                    words.put(word, freq);
                 }
                 token = result.mNextToken;
             } finally {
@@ -145,9 +145,12 @@ public final class ReadOnlyBinaryDictionary extends Dictionary {
             }
 
             count++;
-            if (count % 100 == 0) {
+            if (count % 200 == 0) {
+                Thread.yield();
+            }
+            if (count % 2000 == 0) {
                 try {
-                    Thread.sleep(2);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;
