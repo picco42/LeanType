@@ -535,8 +535,23 @@ class DictionaryFacilitatorImpl : DictionaryFacilitator {
         putWordIntoValidSpellingWordCache("unlearnFromUserHistory", word.lowercase(Locale.getDefault()))
     }
 
-    override fun getAllMainDictionaryWordsWithFrequency(): Map<String, Int> =
-        dictionaryGroups[0].getDict(Dictionary.TYPE_MAIN)?.getAllWordsWithFrequency() ?: emptyMap()
+    override fun getAllMainDictionaryWordsWithFrequency(): Map<String, Int> {
+        val result = mutableMapOf<String, Int>()
+        val dictGroup = dictionaryGroups.firstOrNull() ?: return emptyMap()
+        val mainDict = dictGroup.getDict(Dictionary.TYPE_MAIN)
+        if (mainDict != null) {
+            result.putAll(mainDict.getAllWordsWithFrequency())
+        }
+        val userHistoryDict = dictGroup.getSubDict(Dictionary.TYPE_USER_HISTORY)
+        if (userHistoryDict != null) {
+            result.putAll(userHistoryDict.getAllWordsWithFrequency())
+        }
+        val userDict = dictGroup.getSubDict(Dictionary.TYPE_USER)
+        if (userDict != null) {
+            result.putAll(userDict.getAllWordsWithFrequency())
+        }
+        return result
+    }
 
     // TODO: Revise the way to fusion suggestion results.
     override fun getSuggestionResults(
