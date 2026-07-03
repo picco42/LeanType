@@ -15,6 +15,7 @@
 *   **Toolbar Longpress Toggle**: Added settings toggle to disable long-press hint dots on toolbar keys.
 *   **Blocked Words Screen**: Display total count of blocked words in the dictionary settings title.
 *   **Text Edit persistence**: Added a toggle to persist text edit mode.
+*   **Setup Wizard Enhancements**: Added language layout selection and gesture typing engine selection options to the welcome startup setup wizard.
 
 ## 📦 Downloads (Choose Your Flavor)
 

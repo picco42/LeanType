@@ -5,3 +5,4 @@
 - Fix manual space deletion before punctuation symbols
 - Toggle to disable toolbar long-press hint dots
 - Persistent text edit mode toggle & blocked words counter
+- Select language layout & gesture engine in setup wizard
