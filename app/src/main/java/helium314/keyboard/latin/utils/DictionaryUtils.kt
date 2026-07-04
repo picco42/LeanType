@@ -315,22 +315,12 @@ fun DownloadableDictionaryRow(locale: Locale, desc: String, link: String, onRefr
     ) {
         Text(desc, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
         if (exists) {
-            var showDeleteDialog by remember { mutableStateOf(false) }
-            androidx.compose.material3.TextButton(onClick = { showDeleteDialog = true }) {
-                Text(stringResource(R.string.remove), color = MaterialTheme.colorScheme.error)
-            }
-            if (showDeleteDialog) {
-                ConfirmationDialog(
-                    onDismissRequest = { showDeleteDialog = false },
-                    confirmButtonText = stringResource(R.string.remove),
-                    onConfirmed = { 
-                        file?.delete()
-                        exists = false
-                        onRefresh()
-                    },
-                    content = { Text(stringResource(R.string.remove_dictionary_message, type)) }
-                )
-            }
+            Text(
+                text = "✓ " + stringResource(R.string.installed),
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(end = 8.dp)
+            )
         } else if (downloading) {
             Text(
                 stringResource(R.string.downloading),
