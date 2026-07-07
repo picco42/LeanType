@@ -372,16 +372,16 @@ fun isMainDictionaryMissing(context: Context, locale: Locale): Boolean {
         }
         if (best != null) return false
     }
-    // 2. check if cache directory has a main.dict file
+    // 2. check if cache directory has a main.dict or main_user.dict file
     var cacheDir = DictionaryInfoUtils.getCacheDirectoryForLocale(locale, context)?.let { File(it) }
-    var hasMain = cacheDir?.exists() == true && cacheDir.isDirectory && cacheDir.listFiles()?.any { it.name == "main.dict" } == true
+    var hasMain = cacheDir?.exists() == true && cacheDir.isDirectory && cacheDir.listFiles()?.any { it.name.startsWith("main") && it.name.endsWith(".dict") } == true
     if (!hasMain && (locale.country.isNotEmpty() || locale.variant.isNotEmpty())) {
         val fallbackLocale = Locale(locale.language)
         cacheDir = DictionaryInfoUtils.getCacheDirectoryForLocale(fallbackLocale, context)?.let { File(it) }
-        hasMain = cacheDir?.exists() == true && cacheDir.isDirectory && cacheDir.listFiles()?.any { it.name == "main.dict" } == true
+        hasMain = cacheDir?.exists() == true && cacheDir.isDirectory && cacheDir.listFiles()?.any { it.name.startsWith("main") && it.name.endsWith(".dict") } == true
         if (!hasMain) {
             val variantDir = DictionaryInfoUtils.getFallbackVariantDirectory(locale, context)
-            hasMain = variantDir?.exists() == true && variantDir.isDirectory && variantDir.listFiles()?.any { it.name == "main.dict" } == true
+            hasMain = variantDir?.exists() == true && variantDir.isDirectory && variantDir.listFiles()?.any { it.name.startsWith("main") && it.name.endsWith(".dict") } == true
         }
     }
     if (hasMain) return false
