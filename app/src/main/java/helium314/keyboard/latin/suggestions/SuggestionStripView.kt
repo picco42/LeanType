@@ -503,6 +503,7 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
             || key == Settings.PREF_QUICK_PIN_TOOLBAR_KEYS 
             || key == Settings.PREF_AUTO_HIDE_PINNED_KEYS 
             || key == Settings.PREF_SPLIT_TOOLBAR
+            || key == Settings.PREF_SHOW_DOWNLOAD_BUTTON_IN_TOOLBAR
             || key == "pref_custom_ai_show_tags_on_toolbar"
             || key?.startsWith("pref_custom_ai_tag_") == true
             || key?.startsWith("pref_dict_download_link_") == true) {
@@ -908,7 +909,8 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
         // ponytail: show/hide dictionary download button if dictionary is missing
         if (helium314.keyboard.latin.BuildConfig.FLAVOR == "standard" || helium314.keyboard.latin.BuildConfig.FLAVOR == "standardfull") {
             val currentLocale = SubtypeSettings.getSelectedSubtype(context.prefs()).locale()
-            if (isMainDictionaryMissing(context, currentLocale) && !hideToolbarKeys) {
+            val showDownloadButton = Settings.getValues().mShowDownloadButtonInToolbar
+            if (showDownloadButton && isMainDictionaryMissing(context, currentLocale) && !hideToolbarKeys) {
                 if (dictDownloadButton == null) {
                     dictDownloadButton = ImageButton(context, null, R.attr.suggestionWordStyle).apply {
                         scaleType = android.widget.ImageView.ScaleType.CENTER_INSIDE
