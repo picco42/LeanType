@@ -377,6 +377,11 @@ fun getUserAndInternalDictionaries(context: Context, locale: Locale): Pair<List<
         } == true
         if (hasFallbackFiles) {
             userLocaleDir = fallbackDir
+        } else {
+            val variantDir = DictionaryInfoUtils.getFallbackVariantDirectory(locale, context)
+            if (variantDir != null) {
+                userLocaleDir = variantDir
+            }
         }
     }
 

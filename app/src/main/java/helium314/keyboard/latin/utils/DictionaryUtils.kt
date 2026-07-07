@@ -381,6 +381,10 @@ fun isMainDictionaryMissing(context: Context, locale: Locale): Boolean {
         val fallbackLocale = Locale(locale.language)
         cacheDir = DictionaryInfoUtils.getCacheDirectoryForLocale(fallbackLocale, context)?.let { File(it) }
         hasMain = cacheDir?.exists() == true && cacheDir.isDirectory && cacheDir.listFiles()?.any { it.name == "main.dict" } == true
+        if (!hasMain) {
+            val variantDir = DictionaryInfoUtils.getFallbackVariantDirectory(locale, context)
+            hasMain = variantDir?.exists() == true && variantDir.isDirectory && variantDir.listFiles()?.any { it.name == "main.dict" } == true
+        }
     }
     if (hasMain) return false
     // 3. check if there is a known downloadable main dictionary for this locale
