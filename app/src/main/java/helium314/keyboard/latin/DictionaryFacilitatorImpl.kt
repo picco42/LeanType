@@ -606,9 +606,39 @@ class DictionaryFacilitatorImpl : DictionaryFacilitator {
         val weightForLocale = dictGroup.getWeightForLocale(dictionaryGroups, composedData.mIsBatchMode)
         for (dictType in DictionaryFacilitator.ALL_DICTIONARY_TYPES) {
             val dictionary = dictGroup.getDict(dictType) ?: continue
-            val dictionarySuggestions = dictionary.getSuggestions(composedData, ngramContext, proximityInfoHandle,
+            var dictionarySuggestions = dictionary.getSuggestions(composedData, ngramContext, proximityInfoHandle,
                 settingsValuesForSuggestion, sessionId, weightForLocale, weightOfLangModelVsSpatialModel
-            ) ?: continue
+            )
+            if (composedData.mTypedWord.isEmpty() && (dictionarySuggestions == null || dictionarySuggestions.isEmpty())
+                && (dictType == Dictionary.TYPE_USER || dictType == Dictionary.TYPE_USER_HISTORY)
+            ) {
+                val allWords = try {
+                    dictionary.allWordsWithFrequency
+                } catch (e: Exception) {
+                    null
+                }
+                if (allWords != null && allWords.isNotEmpty()) {
+                    val topWords = allWords.entries
+                        .sortedByDescending { it.value }
+                        .take(15)
+                    val unigramSuggestions = ArrayList<SuggestedWordInfo>()
+                    for (entry in topWords) {
+                        unigramSuggestions.add(
+                            SuggestedWordInfo(
+                                entry.key,
+                                "",
+                                entry.value,
+                                SuggestedWordInfo.KIND_PREDICTION,
+                                dictionary,
+                                SuggestedWordInfo.NOT_AN_INDEX,
+                                SuggestedWordInfo.NOT_A_CONFIDENCE
+                            )
+                        )
+                    }
+                    dictionarySuggestions = unigramSuggestions
+                }
+            }
+            if (dictionarySuggestions == null) continue
 
             // For some reason "garbage" words are produced when glide typing. For user history
             // and main dictionaries we can filter them out by checking whether the dictionary
