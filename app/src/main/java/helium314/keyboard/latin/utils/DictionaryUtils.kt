@@ -295,7 +295,7 @@ fun downloadDictionary(context: Context, locale: Locale, type: String, linkUrl: 
 }
 
 @Composable
-fun DownloadableDictionaryRow(locale: Locale, desc: String, link: String, onRefresh: () -> Unit) {
+fun DownloadableDictionaryRow(locale: Locale, desc: String, link: String, refreshTrigger: Int = 0, onRefresh: () -> Unit) {
     val ctx = LocalContext.current
     val type = remember(link) { link.substringAfterLast("/").substringBefore("_") }
     // ponytail: extract the specific dictionary locale from the download link to avoid directory collision
@@ -306,7 +306,12 @@ fun DownloadableDictionaryRow(locale: Locale, desc: String, link: String, onRefr
     val cacheDir = remember(dictLocale) { DictionaryInfoUtils.getCacheDirectoryForLocale(dictLocale, ctx) }
     val file = remember(cacheDir, type) { cacheDir?.let { File(it, "$type.dict") } }
     var downloading by remember { mutableStateOf(false) }
-    var exists by remember(file) { mutableStateOf(file?.exists() == true) }
+    val downloadedLink = remember(link, refreshTrigger) { ctx.prefs().getString("pref_dict_download_link_${type}_${dictLocale}", "") ?: "" }
+    var exists by remember(file, downloadedLink, refreshTrigger) {
+        mutableStateOf(
+            file?.exists() == true && (downloadedLink == link || (downloadedLink.isEmpty() && link.contains("/dictionaries/")))
+        )
+    }
 
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -315,12 +320,20 @@ fun DownloadableDictionaryRow(locale: Locale, desc: String, link: String, onRefr
     ) {
         Text(desc, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
         if (exists) {
-            Text(
-                text = "✓ " + stringResource(R.string.installed),
-                color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(end = 8.dp)
-            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = "✓ " + stringResource(R.string.installed),
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(end = 8.dp)
+                )
+                helium314.keyboard.settings.DeleteButton {
+                    file?.delete()
+                    ctx.prefs().edit().remove("pref_dict_download_link_${type}_${dictLocale}").apply()
+                    exists = false
+                    onRefresh()
+                }
+            }
         } else if (downloading) {
             Text(
                 stringResource(R.string.downloading),
@@ -333,6 +346,7 @@ fun DownloadableDictionaryRow(locale: Locale, desc: String, link: String, onRefr
                 downloadDictionary(ctx, dictLocale, type, link) { success ->
                     downloading = false
                     if (success) {
+                        ctx.prefs().edit().putString("pref_dict_download_link_${type}_${dictLocale}", link).apply()
                         exists = true
                         onRefresh()
                     } else {
