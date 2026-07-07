@@ -200,6 +200,10 @@ public class SwipeGestureEngine {
         // ponytail: parallel float[] + int[] sort avoids Integer boxing
         float[] scores = new float[m];
         int[]   order  = new int[m];
+        float[] topScores = new float[maxResults];
+        Arrays.fill(topScores, -Float.MAX_VALUE);
+        float threshold = -Float.MAX_VALUE;
+
         for (int i = 0; i < m; i++) {
             IndexEntry e = filtered.get(i);
             float freqBonus = (e.frequency > 0) ? (float)(Math.log(e.frequency + 1) * FREQ_WEIGHT) : 0f;
@@ -213,8 +217,22 @@ public class SwipeGestureEngine {
             String lk = e.word.toLowerCase(Locale.ROOT);
             Integer ub = sUserBoost.get(lk);
             float userBonus = ub != null ? (float) Math.log(ub + 1) * 0.08f : 0f;
-            scores[i] = -l2(inputVec, e.path) + freqBonus + seqPenalty + predBonus + lenPenalty + userBonus;
+
+            float bonuses = freqBonus + seqPenalty + predBonus + lenPenalty + userBonus;
+            float maxL2 = (threshold == -Float.MAX_VALUE) ? Float.MAX_VALUE : (bonuses - threshold);
+            float distance;
+            if (maxL2 <= 0f) {
+                distance = Float.MAX_VALUE;
+            } else {
+                distance = l2(inputVec, e.path, maxL2);
+            }
+            float score = -distance + bonuses;
+            scores[i] = score;
             order[i] = i;
+
+            if (score > threshold) {
+                threshold = updateThreshold(topScores, score);
+            }
         }
 
         // ponytail: primitive int sort with insertion sort for small N (fast for <500 items)
@@ -336,9 +354,10 @@ public class SwipeGestureEngine {
         return resampleFlat(flat, pts.size(), n);
     }
 
-    private static float l2(float[] a, float[] b) {
+    private static float l2(float[] a, float[] b, float maxL2) {
         float s = 0;
         int n = a.length / 2;
+        float limitSq = maxL2 * maxL2;
         for (int i = 0; i < n; i++) {
             float dx = a[2 * i] - b[2 * i];
             float dy = a[2 * i + 1] - b[2 * i + 1];
@@ -346,7 +365,23 @@ public class SwipeGestureEngine {
             // ponytail: weight endpoints twice — more precisely typed
             if (i == 0 || i == n - 1) s += distSq * 2.0f;
             else s += distSq;
+            if (s > limitSq) return Float.MAX_VALUE;
         }
         return (float) Math.sqrt(s);
+    }
+
+    private static float updateThreshold(float[] topScores, float newScore) {
+        int minIdx = 0;
+        for (int i = 1; i < topScores.length; i++) {
+            if (topScores[i] < topScores[minIdx]) minIdx = i;
+        }
+        if (newScore > topScores[minIdx]) {
+            topScores[minIdx] = newScore;
+        }
+        float min = topScores[0];
+        for (int i = 1; i < topScores.length; i++) {
+            if (topScores[i] < min) min = topScores[i];
+        }
+        return min;
     }
 }
