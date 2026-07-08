@@ -537,7 +537,7 @@ private fun getCategoryForPrefKey(key: String): BackupCategory {
         "autocorrect_shortcuts", "backspace_reverts_autocorrect", "suggest_punctuation",
         "add_to_personal_dictionary"
     )
-    if (dictKeys.contains(key)) return BackupCategory.DICTIONARY_HISTORY
+    if (dictKeys.contains(key) || key.startsWith("pref_text_expander_")) return BackupCategory.DICTIONARY_HISTORY
     
     val clipboardKeys = setOf(
         "enable_clipboard_history", "suggest_screenshots", "compress_screenshots",
