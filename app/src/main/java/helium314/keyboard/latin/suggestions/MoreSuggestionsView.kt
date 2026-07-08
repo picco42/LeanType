@@ -273,7 +273,8 @@ class MoreSuggestionsView @JvmOverloads constructor(
         if (index < 0 || index >= suggestedWords.size()) return
         val word = suggestedWords.getInfo(index).word
 
-        val dialog = android.app.AlertDialog.Builder(context)
+        val themeContext = helium314.keyboard.latin.utils.getPlatformDialogThemeContext(context)
+        val dialog = android.app.AlertDialog.Builder(themeContext)
             .setMessage(context.getString(R.string.delete_confirmation, word))
             .setPositiveButton(R.string.delete) { _, _ ->
                 listener.removeSuggestion(word)
