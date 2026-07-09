@@ -401,6 +401,7 @@ class DictionaryFacilitatorImpl : DictionaryFacilitator {
         dictionaryGroup: DictionaryGroup, ngramContext: NgramContext, word: String, wasAutoCapitalized: Boolean,
         timeStampInSeconds: Int, blockPotentiallyOffensive: Boolean
     ) {
+        if (dictionaryGroup.isBlacklisted(word)) return
         val userHistoryDictionary = dictionaryGroup.getSubDict(Dictionary.TYPE_USER_HISTORY) ?: return
 
         val mainFreq = dictionaryGroup.getDict(Dictionary.TYPE_MAIN)?.getFrequency(word) ?: Dictionary.NOT_A_PROBABILITY
@@ -742,7 +743,7 @@ class DictionaryFacilitatorImpl : DictionaryFacilitator {
         return dictionariesToCheck.any { dictionaryGroup.getDict(it)?.isValidWord(word) == true }
     }
 
-    private fun isBlacklisted(word: String): Boolean = dictionaryGroups.any { it.isBlacklisted(word) }
+    override fun isBlacklisted(word: String): Boolean = dictionaryGroups.any { it.isBlacklisted(word) }
 
     override fun removeWord(word: String) {
         for (dictionaryGroup in dictionaryGroups) {

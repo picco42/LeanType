@@ -252,6 +252,7 @@ public class SwipeGestureEngine {
         Map<Character, List<IndexEntry>> byFirst = new HashMap<>();
         facilitator.forEachMainDictionaryWord((raw, freqVal) -> {
             if (raw == null) return;
+            if (facilitator.isBlacklisted(raw)) return;
             int freq = freqVal != null ? freqVal : 0;
             // ponytail: apply user boost to freq so self-learned words rank higher immediately
             String lk = getLowerCase(raw);

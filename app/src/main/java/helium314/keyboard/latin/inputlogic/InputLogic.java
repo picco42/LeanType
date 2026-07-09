@@ -3635,14 +3635,14 @@ public final class InputLogic {
     }
 
     private boolean tryJumpToNextPlaceholder() {
-        mConnection.finishComposingText();
         final CharSequence before = mConnection.getTextBeforeCursor(1000, 0);
         final CharSequence after = mConnection.getTextAfterCursor(1000, 0);
         final String beforeStr = before != null ? before.toString() : "";
         final String afterStr = after != null ? after.toString() : "";
         
         final String fullText = beforeStr + afterStr;
-        final int cursorPositionInFull = beforeStr.length();
+        
+        Log.d(TAG, "tryJumpToNextPlaceholder: beforeStr=[" + beforeStr + "] afterStr=[" + afterStr + "]");
         
         final java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("%cursor(\\d+)%");
         final java.util.regex.Matcher matcher = pattern.matcher(fullText);
@@ -3654,6 +3654,7 @@ public final class InputLogic {
         while (matcher.find()) {
             try {
                 final int num = Integer.parseInt(matcher.group(1));
+                Log.d(TAG, "tryJumpToNextPlaceholder: found %cursor" + num + "% at [" + matcher.start() + "," + matcher.end() + ")");
                 if (num < lowestNum) {
                     lowestNum = num;
                     bestStart = matcher.start();
@@ -3665,14 +3666,25 @@ public final class InputLogic {
         }
         
         if (bestStart != -1) {
+            mConnection.finishComposingText();
+            mConnection.tryFixIncorrectCursorPosition();
             resetComposingState(true);
+            
+            final CharSequence before2 = mConnection.getTextBeforeCursor(1000, 0);
+            final String beforeStr2 = before2 != null ? before2.toString() : "";
+            final int cursorPositionInFull = beforeStr2.length();
+            
             final int currentSelectionEnd = mConnection.getExpectedSelectionEnd();
             final int targetStart = currentSelectionEnd - cursorPositionInFull + bestStart;
             final int targetEnd = currentSelectionEnd - cursorPositionInFull + bestEnd;
+            Log.d(TAG, "tryJumpToNextPlaceholder: jumping to [" + targetStart + "," + targetEnd + ") currentSelEnd=" + currentSelectionEnd);
+            mConnection.beginBatchEdit();
             mConnection.setSelection(targetStart, targetEnd);
             mConnection.commitText("", 1);
+            mConnection.endBatchEdit();
             return true;
         }
+        Log.d(TAG, "tryJumpToNextPlaceholder: no placeholder found");
         return false;
     }
 

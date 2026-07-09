@@ -61,6 +61,7 @@ class Suggest(private val mDictionaryFacilitator: DictionaryFacilitator) {
     // cache cleared whenever LatinIME.loadSettings is called, notably on changing layout and switching input fields
     fun clearNextWordSuggestionsCache() {
         nextWordSuggestionsCache.evictAll()
+        gestureIndex = null
         // Also reset scoreLimit cache to force refresh on next use
         synchronized(this) {
             mLastScoreLimitUpdateTime = 0

@@ -111,6 +111,8 @@ public interface DictionaryFacilitator {
 
     void reloadBlacklist();
 
+    boolean isBlacklisted(String word);
+
     void closeDictionaries();
 
     /** main dictionaries are loaded asynchronously after resetDictionaries */
